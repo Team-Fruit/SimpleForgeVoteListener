@@ -1,7 +1,5 @@
-package com.bebehp.mc.simpleforgevotelistener.handler;
+package com.bebehp.mc.simpleforgevotelistener;
 import java.io.File;
-
-import com.bebehp.mc.simpleforgevotelistener.Reference;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

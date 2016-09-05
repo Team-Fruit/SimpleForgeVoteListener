@@ -18,6 +18,19 @@ public class VoteListener {
 	public void onVoteEvent(final VotifierEvent event) {
 		final Vote vote = event.getVote();
 		final String name = vote.getUsername();
+		if (checkOnline(name)) {
+			rewards(name);
+		} else {
+			new VoteOffline().onVote(name);
+		}
+	}
+
+	public void rewards(final String name) {
+		rewards(name, 1);
+	}
+
+	public void rewards(final String name, final int number) {
+
 	}
 
 	private boolean checkOnline(final String username) {

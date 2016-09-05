@@ -1,4 +1,4 @@
-package com.bebehp.mc.simpleforgevotelistener.handler;
+package com.bebehp.mc.simpleforgevotelistener.json;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +12,7 @@ import java.util.zip.ZipEntry;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
+import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
 import com.bebehp.mc.simpleforgevotelistener.Reference;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -20,24 +21,26 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 
-public class JsonHandler {
-	public static VoteJson voteJson;
+public class JsonLoader {
+	public static JsonConfig voteJson;
 
-	public static void init(final File configDir) {
-		final File jsonFile = new File(configDir, "VoteEvent.json");
+	public static void load(final File configDir) {
+		if (!configDir.exists())
+			configDir.mkdirs();
+		final File jsonFile = new File(configDir, ConfigurationHandler.jsonFileName);
 		if (!jsonFile.exists())
 			if (!copyJson(jsonFile))
 				return;
 		voteJson = loadJson(jsonFile);
 	}
 
-	public static VoteJson loadJson(final File jsonFile) {
+	public static JsonConfig loadJson(final File jsonFile) {
 		final File mcDir = (File) FMLInjectionData.data()[6];
 		InputStreamReader isr;
 		try {
 			isr = new InputStreamReader(new FileInputStream(jsonFile));
 			final JsonReader jsr = new JsonReader(isr);
-			final VoteJson voteJson = new Gson().fromJson(jsr, VoteJson.class);
+			final JsonConfig voteJson = new Gson().fromJson(jsr, JsonConfig.class);
 			return voteJson;
 		} catch (final FileNotFoundException e) {
 			Reference.logger.error(e);
@@ -79,9 +82,6 @@ public class JsonHandler {
 				return false;
 			}
 		}
-	}
-
-	private JsonHandler() {
 	}
 
 }
