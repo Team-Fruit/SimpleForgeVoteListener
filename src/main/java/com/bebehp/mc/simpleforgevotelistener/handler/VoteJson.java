@@ -11,7 +11,7 @@ public class VoteJson {
 	public class Commands {
 		public String command;
 		public String args;
-		public String probability;
+		public String option;
 	}
 	public class GlobalChat {
 		@SerializedName("string")

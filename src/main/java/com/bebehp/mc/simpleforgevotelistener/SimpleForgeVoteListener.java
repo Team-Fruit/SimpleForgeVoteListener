@@ -14,6 +14,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class SimpleForgeVoteListener {
@@ -31,7 +32,7 @@ public class SimpleForgeVoteListener {
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
-
+		MinecraftForge.EVENT_BUS.register(VoteListener.INSTANCE);
 	}
 
 	@EventHandler
