@@ -1,6 +1,10 @@
 package com.bebehp.mc.simpleforgevotelistener;
 
+import java.io.File;
 import java.util.Map;
+
+import com.bebehp.mc.simpleforgevotelistener.handler.ConfigurationHandler;
+import com.bebehp.mc.simpleforgevotelistener.handler.JsonHandler;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -19,7 +23,10 @@ public class SimpleForgeVoteListener {
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
-
+		final File configDir = new File(event.getModConfigurationDirectory(), Reference.MODID);
+		configDir.mkdirs();
+		ConfigurationHandler.init(new File(configDir, Reference.MODID + ".cfg"));
+		JsonHandler.init(configDir);
 	}
 
 	@EventHandler
