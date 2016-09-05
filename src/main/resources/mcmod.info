@@ -1,0 +1,16 @@
+[
+{
+  "modid": "SimpleForgeVoteListener",
+  "name": "SimpleForgeVoteListener",
+  "description": "Forge Votefier Event Listener",
+  "version": "1.0.0",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": "sjcl",
+  "credits": "Copyright (C) 2016 TeamFruit",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
