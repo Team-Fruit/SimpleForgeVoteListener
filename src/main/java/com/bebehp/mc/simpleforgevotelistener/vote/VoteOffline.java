@@ -2,7 +2,6 @@ package com.bebehp.mc.simpleforgevotelistener.vote;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,28 +17,23 @@ import org.apache.commons.io.IOUtils;
 
 import com.bebehp.mc.simpleforgevotelistener.Reference;
 
-import net.minecraft.client.Minecraft;
-
 public class VoteOffline implements IVoteEvent {
 
-	public static final File csvFile = new File(Minecraft.getMinecraft().mcDataDir, "offlinevote.csv");
-
-	private LinkedHashMap<String, Integer> map;
 
 	public VoteOffline() {
 		BufferedReader br = null;
 		try {
-			if (!csvFile.exists()) {
-				csvFile.createNewFile();
+			if (!VoteListener.csvFile.exists()) {
+				VoteListener.csvFile.createNewFile();
 				return;
 			}
 
-			final FileReader fr = new FileReader(csvFile);
+			final FileReader fr = new FileReader(VoteListener.csvFile);
 			br = new BufferedReader(fr);
 			String line;
 			while ((line = br.readLine()) != null) {
 				final String[] array = line.split(",");
-				this.map.put(array[0], Integer.parseInt(array[1]));
+				VoteListener.map.put(array[0], Integer.parseInt(array[1]));
 			}
 		} catch (final IOException e) {
 			Reference.logger.error(e);
@@ -54,7 +48,7 @@ public class VoteOffline implements IVoteEvent {
 
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new BufferedWriter(new FileWriter(csvFile, false)));
+			pw = new PrintWriter(new BufferedWriter(new FileWriter(VoteListener.csvFile, false)));
 
 			final Set<Map.Entry<String, Integer>> set = map.entrySet();
 			final Iterator<Map.Entry<String, Integer>> it = set.iterator();
@@ -73,7 +67,7 @@ public class VoteOffline implements IVoteEvent {
 	private void postSave(final String key, final int value) {
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new BufferedWriter(new FileWriter(csvFile, true)));
+			pw = new PrintWriter(new BufferedWriter(new FileWriter(VoteListener.csvFile, true)));
 			pw.println(key + "," + value);
 		} catch (final IOException e) {
 			Reference.logger.error(e);
@@ -84,7 +78,7 @@ public class VoteOffline implements IVoteEvent {
 
 	private void deleteUser(final String key) {
 		try {
-			final BufferedReader br = new BufferedReader(new FileReader(csvFile));
+			final BufferedReader br = new BufferedReader(new FileReader(VoteListener.csvFile));
 
 			final List<String> list = new ArrayList<String>();
 			String line1;
@@ -94,7 +88,7 @@ public class VoteOffline implements IVoteEvent {
 			}
 			br.close();
 
-			final PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(csvFile, false)));
+			final PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(VoteListener.csvFile, false)));
 			for (final String line2 : list) {
 				pw.println(line2);
 			}
@@ -105,9 +99,9 @@ public class VoteOffline implements IVoteEvent {
 	}
 
 	public int collectVote(final String name) {
-		if (this.map.containsKey(name)) {
+		if (VoteListener.map.containsKey(name)) {
 			deleteUser(name);
-			return this.map.get(name);
+			return VoteListener.map.get(name);
 		} else {
 			return 0;
 		}
@@ -115,12 +109,12 @@ public class VoteOffline implements IVoteEvent {
 
 	@Override
 	public void onVote(final String name) {
-		if (this.map.containsKey(name)) {
-			final int count = this.map.get(name);
-			this.map.put(name, count+1);
-			saveAll(this.map);
+		if (VoteListener.map.containsKey(name)) {
+			final int count = VoteListener.map.get(name);
+			VoteListener.map.put(name, count+1);
+			saveAll(VoteListener.map);
 		} else {
-			this.map.put(name, 1);
+			VoteListener.map.put(name, 1);
 			postSave(name, 1);
 		}
 	}
