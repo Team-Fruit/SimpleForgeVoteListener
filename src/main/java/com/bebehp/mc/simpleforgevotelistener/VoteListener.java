@@ -7,9 +7,11 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.server.MinecraftServer;
 
 public class VoteListener {
-	public static final VoteListener INSTANCE = new VoteListener();
 
-	private VoteListener() {
+	private final VoteOffline voteOffline;
+
+	public VoteListener(final VoteOffline voteOffline) {
+		this.voteOffline = voteOffline;
 	}
 
 	private final MinecraftServer mc = MinecraftServer.getServer();
@@ -21,15 +23,12 @@ public class VoteListener {
 		if (checkOnline(name)) {
 			rewards(name);
 		} else {
-			new VoteOffline().onVote(name);
+			this.voteOffline.onOfflineVote(name);
 		}
 	}
 
 	public void rewards(final String name) {
-		rewards(name, 1);
-	}
-
-	public void rewards(final String name, final int number) {
+		final int count = 1+this.voteOffline.collectVote(name);
 
 	}
 

@@ -7,8 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +27,11 @@ public class VoteOffline {
 	public VoteOffline() {
 		BufferedReader br = null;
 		try {
+			if (!csvFile.exists()) {
+				csvFile.createNewFile();
+				return;
+			}
+
 			final FileReader fr = new FileReader(csvFile);
 			br = new BufferedReader(fr);
 			String line;
@@ -39,15 +46,13 @@ public class VoteOffline {
 		}
 	}
 
-	private void save(final LinkedHashMap<String, Integer> map) {
+	private void saveAll(final LinkedHashMap<String, Integer> map) {
 		if (map.isEmpty())
 			return;
 
-		FileWriter fw = null;
 		PrintWriter pw = null;
 		try {
-			fw = new FileWriter(csvFile, false);
-			pw = new PrintWriter(new BufferedWriter(fw));
+			pw = new PrintWriter(new BufferedWriter(new FileWriter(csvFile, false)));
 
 			final Set<Map.Entry<String, Integer>> set = map.entrySet();
 			final Iterator<Map.Entry<String, Integer>> it = set.iterator();
@@ -64,11 +69,9 @@ public class VoteOffline {
 	}
 
 	private void postSave(final String key, final int value) {
-		FileWriter fw = null;
 		PrintWriter pw = null;
 		try {
-			fw = new FileWriter(csvFile, true);
-			pw = new PrintWriter(new BufferedWriter(fw));
+			pw = new PrintWriter(new BufferedWriter(new FileWriter(csvFile, true)));
 			pw.println(key + "," + value);
 		} catch (final IOException e) {
 			Reference.logger.error(e);
@@ -77,16 +80,46 @@ public class VoteOffline {
 		}
 	}
 
-	public void onVote(final String name) {
+	private void deleteUser(final String key) {
+		try {
+			final BufferedReader br = new BufferedReader(new FileReader(csvFile));
+
+			final List<String> list = new ArrayList<String>();
+			String line1;
+			while ((line1 = br.readLine()) != null) {
+				if (!line1.contains(key))
+					list.add(line1);
+			}
+			br.close();
+
+			final PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(csvFile, false)));
+			for (final String line2 : list) {
+				pw.println(line2);
+			}
+			pw.close();
+		} catch (final IOException e) {
+			Reference.logger.error(e);
+		}
+	}
+
+	public void onOfflineVote(final String name) {
 		if (this.map.containsKey(name)) {
-			int count = this.map.get(name);
-			this.map.put(name, count++);
-			save(this.map);
+			final int count = this.map.get(name);
+			this.map.put(name, count+1);
+			saveAll(this.map);
 		} else {
 			this.map.put(name, 1);
 			postSave(name, 1);
 		}
 	}
 
+	public int collectVote(final String name) {
+		if (this.map.containsKey(name)) {
+			deleteUser(name);
+			return this.map.get(name);
+		} else {
+			return 0;
+		}
+	}
 
 }

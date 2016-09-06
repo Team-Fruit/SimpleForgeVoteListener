@@ -20,6 +20,9 @@ import net.minecraftforge.common.MinecraftForge;
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class SimpleForgeVoteListener {
 
+	public final VoteOffline offline = new VoteOffline();
+	public final VoteListener listener = new VoteListener(this.offline);
+
 	@Instance(Reference.MODID)
 	public static SimpleForgeVoteListener instance;
 
@@ -31,7 +34,7 @@ public class SimpleForgeVoteListener {
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(VoteListener.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(this.listener);
 	}
 
 	@EventHandler
