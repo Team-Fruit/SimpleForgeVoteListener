@@ -6,9 +6,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -81,7 +81,7 @@ public class VoteOffline extends AbstractVoteEvent {
 		try {
 			final BufferedReader br = new BufferedReader(new FileReader(VoteListener.csvFile));
 
-			final List<String> list = new ArrayList<String>();
+			final List<String> list = new LinkedList<String>();
 			String line1;
 			while ((line1 = br.readLine()) != null) {
 				if (!line1.contains(key))
