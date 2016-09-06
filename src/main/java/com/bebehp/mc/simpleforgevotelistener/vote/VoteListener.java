@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.io.IOUtils;
 
+import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
 import com.bebehp.mc.simpleforgevotelistener.Reference;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
@@ -28,7 +29,8 @@ public class VoteListener {
 		this.voteOnline = voteOline;
 		this.voteOffline = voteOffline;
 
-		loadCSV();
+		if (ConfigurationHandler.offlineVoteEnable)
+			loadCSV();
 	}
 
 	@SubscribeEvent

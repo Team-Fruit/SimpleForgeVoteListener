@@ -15,9 +15,10 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
+import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
 import com.bebehp.mc.simpleforgevotelistener.Reference;
 
-public class VoteOffline implements IVoteEvent {
+public class VoteOffline extends AbstractVoteEvent {
 
 
 	public VoteOffline() {
@@ -109,13 +110,15 @@ public class VoteOffline implements IVoteEvent {
 
 	@Override
 	public void onVote(final String name) {
-		if (VoteListener.map.containsKey(name)) {
-			final int count = VoteListener.map.get(name);
-			VoteListener.map.put(name, count+1);
-			saveAll(VoteListener.map);
-		} else {
-			VoteListener.map.put(name, 1);
-			postSave(name, 1);
+		if (ConfigurationHandler.offlineVoteEnable) {
+			if (VoteListener.map.containsKey(name)) {
+				final int count = VoteListener.map.get(name);
+				VoteListener.map.put(name, count+1);
+				saveAll(VoteListener.map);
+			} else {
+				VoteListener.map.put(name, 1);
+				postSave(name, 1);
+			}
 		}
 	}
 }

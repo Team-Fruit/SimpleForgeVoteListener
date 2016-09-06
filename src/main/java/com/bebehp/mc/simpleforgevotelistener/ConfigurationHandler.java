@@ -15,6 +15,10 @@ public class ConfigurationHandler {
 	public static String jsonFileName = JSON_DAFAULT_FILENAME;
 	public static Property propJsonFileName = null;
 
+	public static final boolean OFFLINEVOTE_ENABLE_DEFAULT = true;
+	public static boolean offlineVoteEnable = OFFLINEVOTE_ENABLE_DEFAULT;
+	public static Property propOfflineVoteEnable = null;
+
 	public static void init(final File configFile) {
 		if (configuration == null) {
 			configuration = new Configuration(configFile, VERSION);
@@ -26,6 +30,10 @@ public class ConfigurationHandler {
 		propJsonFileName = configuration.get("SimpleForgeVoteListener", "Filename",
 				JSON_DAFAULT_FILENAME, "Voting event configration json filename.");
 		jsonFileName = propJsonFileName.getString();
+
+		propOfflineVoteEnable = configuration.get("SimpleForgeVoteListener", "isOfflineVoteEnabled",
+				OFFLINEVOTE_ENABLE_DEFAULT, "When the player is offline, the vote is recorded, it will be reward later.");
+		offlineVoteEnable = propJsonFileName.getBoolean();
 
 		if (configuration.hasChanged()) {
 			configuration.save();

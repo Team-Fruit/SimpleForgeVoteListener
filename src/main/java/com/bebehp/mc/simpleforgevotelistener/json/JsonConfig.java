@@ -10,7 +10,8 @@ public class JsonConfig {
 	public List<PrivateChat> private_chat;
 	public List<Offline_GlobalChat> offline_global_chat;
 	public class Commands {
-		public String command;
+		@SerializedName("string")
+		public String str;
 		public String args;
 		public String option;
 	}
