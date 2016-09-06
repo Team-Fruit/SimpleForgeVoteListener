@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
-
 import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
 import com.bebehp.mc.simpleforgevotelistener.Reference;
 
@@ -22,25 +20,7 @@ public class VoteOffline extends AbstractVoteEvent {
 
 
 	public VoteOffline() {
-		BufferedReader br = null;
-		try {
-			if (!VoteListener.csvFile.exists()) {
-				VoteListener.csvFile.createNewFile();
-				return;
-			}
-
-			final FileReader fr = new FileReader(VoteListener.csvFile);
-			br = new BufferedReader(fr);
-			String line;
-			while ((line = br.readLine()) != null) {
-				final String[] array = line.split(",");
-				VoteListener.map.put(array[0], Integer.parseInt(array[1]));
-			}
-		} catch (final IOException e) {
-			Reference.logger.error(e);
-		} finally {
-			IOUtils.closeQuietly(br);
-		}
+		super();
 	}
 
 	private void saveAll(final LinkedHashMap<String, Integer> map) {
@@ -49,7 +29,7 @@ public class VoteOffline extends AbstractVoteEvent {
 
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new BufferedWriter(new FileWriter(VoteListener.csvFile, false)));
+			pw = new PrintWriter(new BufferedWriter(new FileWriter(csvFile, false)));
 
 			final Set<Map.Entry<String, Integer>> set = map.entrySet();
 			final Iterator<Map.Entry<String, Integer>> it = set.iterator();
@@ -68,7 +48,7 @@ public class VoteOffline extends AbstractVoteEvent {
 	private void postSave(final String key, final int value) {
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new BufferedWriter(new FileWriter(VoteListener.csvFile, true)));
+			pw = new PrintWriter(new BufferedWriter(new FileWriter(csvFile, true)));
 			pw.println(key + "," + value);
 		} catch (final IOException e) {
 			Reference.logger.error(e);
@@ -79,7 +59,7 @@ public class VoteOffline extends AbstractVoteEvent {
 
 	private void deleteUser(final String key) {
 		try {
-			final BufferedReader br = new BufferedReader(new FileReader(VoteListener.csvFile));
+			final BufferedReader br = new BufferedReader(new FileReader(csvFile));
 
 			final List<String> list = new LinkedList<String>();
 			String line1;
@@ -89,7 +69,7 @@ public class VoteOffline extends AbstractVoteEvent {
 			}
 			br.close();
 
-			final PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(VoteListener.csvFile, false)));
+			final PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(csvFile, false)));
 			for (final String line2 : list) {
 				pw.println(line2);
 			}
@@ -100,9 +80,9 @@ public class VoteOffline extends AbstractVoteEvent {
 	}
 
 	public int collectVote(final String name) {
-		if (VoteListener.map.containsKey(name)) {
+		if (map.containsKey(name)) {
 			deleteUser(name);
-			return VoteListener.map.get(name);
+			return map.get(name);
 		} else {
 			return 0;
 		}
@@ -111,12 +91,12 @@ public class VoteOffline extends AbstractVoteEvent {
 	@Override
 	public void onVote(final String name) {
 		if (ConfigurationHandler.offlineVoteEnable) {
-			if (VoteListener.map.containsKey(name)) {
-				final int count = VoteListener.map.get(name);
-				VoteListener.map.put(name, count+1);
-				saveAll(VoteListener.map);
+			if (map.containsKey(name)) {
+				final int count = map.get(name);
+				map.put(name, count+1);
+				saveAll(map);
 			} else {
-				VoteListener.map.put(name, 1);
+				map.put(name, 1);
 				postSave(name, 1);
 			}
 		}
