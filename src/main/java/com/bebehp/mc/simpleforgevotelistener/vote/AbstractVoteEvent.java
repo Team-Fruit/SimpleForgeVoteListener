@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
 import com.bebehp.mc.simpleforgevotelistener.Reference;
+import com.bebehp.mc.simpleforgevotelistener.SimpleForgeVoteListener;
 import com.bebehp.mc.simpleforgevotelistener.json.JsonStringArgs;
 
 import net.minecraft.client.Minecraft;
@@ -22,7 +24,9 @@ import net.minecraft.server.MinecraftServer;
 
 public abstract class AbstractVoteEvent implements IVote {
 
+	@Deprecated
 	public static final File csvFile = new File(Minecraft.getMinecraft().mcDataDir, "offlinevote.csv");
+	public static final File dataDir = SimpleForgeVoteListener.getModDataDir();
 	public static LinkedHashMap<String, Integer> map;
 
 	public static final Pattern pattern = Pattern.compile("%[cbhdoxefgatn]", Pattern.CASE_INSENSITIVE);
@@ -30,6 +34,28 @@ public abstract class AbstractVoteEvent implements IVote {
 	public AbstractVoteEvent() {
 		if (ConfigurationHandler.offlineVoteEnable)
 			loadCSV();
+	}
+
+	public void loadCSV() {
+		BufferedReader br = null;
+		try {
+			if (!csvFile.exists()) {
+				csvFile.createNewFile();
+				return;
+			}
+
+			final FileReader fr = new FileReader(csvFile);
+			br = new BufferedReader(fr);
+			String line;
+			while ((line = br.readLine()) != null) {
+				final String[] array = line.split(",");
+				map.put(array[0], Integer.parseInt(array[1]));
+			}
+		} catch (final IOException e) {
+			Reference.logger.error(e);
+		} finally {
+			IOUtils.closeQuietly(br);
+		}
 	}
 
 	@Override
@@ -68,26 +94,8 @@ public abstract class AbstractVoteEvent implements IVote {
 		return a.parseString(name, player);
 	}
 
-	public void loadCSV() {
-		BufferedReader br = null;
-		try {
-			if (!csvFile.exists()) {
-				csvFile.createNewFile();
-				return;
-			}
-
-			final FileReader fr = new FileReader(csvFile);
-			br = new BufferedReader(fr);
-			String line;
-			while ((line = br.readLine()) != null) {
-				final String[] array = line.split(",");
-				map.put(array[0], Integer.parseInt(array[1]));
-			}
-		} catch (final IOException e) {
-			Reference.logger.error(e);
-		} finally {
-			IOUtils.closeQuietly(br);
-		}
+	public UUID getUUID(final String name) {
+		final EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(name);
+		return player.getGameProfile().getId();
 	}
-
 }

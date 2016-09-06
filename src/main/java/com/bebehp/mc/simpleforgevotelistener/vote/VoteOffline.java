@@ -23,6 +23,7 @@ public class VoteOffline extends AbstractVoteEvent {
 		super();
 	}
 
+	@Deprecated
 	private void saveAll(final LinkedHashMap<String, Integer> map) {
 		if (map.isEmpty())
 			return;
@@ -45,6 +46,7 @@ public class VoteOffline extends AbstractVoteEvent {
 		}
 	}
 
+	@Deprecated
 	private void postSave(final String key, final int value) {
 		PrintWriter pw = null;
 		try {
@@ -57,6 +59,7 @@ public class VoteOffline extends AbstractVoteEvent {
 		}
 	}
 
+	@Deprecated
 	private void deleteUser(final String key) {
 		try {
 			final BufferedReader br = new BufferedReader(new FileReader(csvFile));
@@ -79,6 +82,7 @@ public class VoteOffline extends AbstractVoteEvent {
 		}
 	}
 
+	@Deprecated
 	public int collectVote(final String name) {
 		if (map.containsKey(name)) {
 			deleteUser(name);

@@ -1,7 +1,6 @@
 package com.bebehp.mc.simpleforgevotelistener;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 
 import com.bebehp.mc.simpleforgevotelistener.json.JsonLoader;
@@ -33,7 +32,7 @@ public class SimpleForgeVoteListener {
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
-		JsonLoader.load(new File(getDataDirectory(), "votelistener"));
+		JsonLoader.load(getModDataDir());
 	}
 
 	@EventHandler
@@ -52,13 +51,8 @@ public class SimpleForgeVoteListener {
 		return true;
 	}
 
-	public File getDataDirectory() {
-		final File file = Minecraft.getMinecraft().mcDataDir;
-		try {
-			return file.getCanonicalFile();
-		} catch (final IOException e) {
-			Reference.logger.debug("Could not canonize path!", e);
-		}
-		return file;
+	public static File getModDataDir() {
+		final File mcDataDir = Minecraft.getMinecraft().mcDataDir;
+		return new File(mcDataDir, "vote");
 	}
 }
