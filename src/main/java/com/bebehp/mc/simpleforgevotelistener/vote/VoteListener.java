@@ -1,4 +1,4 @@
-package com.bebehp.mc.simpleforgevotelistener;
+package com.bebehp.mc.simpleforgevotelistener.vote;
 
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
@@ -8,32 +8,32 @@ import net.minecraft.server.MinecraftServer;
 
 public class VoteListener {
 
+	private final VoteOnline voteOnline;
 	private final VoteOffline voteOffline;
 
-	public VoteListener(final VoteOffline voteOffline) {
+	public VoteListener(final VoteOnline voteOline, final VoteOffline voteOffline) {
+		this.voteOnline = voteOline;
 		this.voteOffline = voteOffline;
 	}
-
-	private final MinecraftServer mc = MinecraftServer.getServer();
 
 	@SubscribeEvent
 	public void onVoteEvent(final VotifierEvent event) {
 		final Vote vote = event.getVote();
 		final String name = vote.getUsername();
 		if (checkOnline(name)) {
-			rewards(name);
+			this.voteOnline.onVote(name);
 		} else {
-			this.voteOffline.onOfflineVote(name);
+			this.voteOffline.onVote(name);
 		}
 	}
 
-	public void rewards(final String name) {
-		final int count = 1+this.voteOffline.collectVote(name);
+	//	public void rewards(final String name) {
+	//		final int count = 1+this.voteOffline.collectVote(name);
+	//
+	//	}
 
-	}
-
-	private boolean checkOnline(final String username) {
-		for(final String line : this.mc.getAllUsernames()) {
+	public boolean checkOnline(final String username) {
+		for(final String line :  MinecraftServer.getServer().getAllUsernames()) {
 			if (line == username)
 				return true;
 		}

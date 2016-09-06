@@ -1,4 +1,4 @@
-package com.bebehp.mc.simpleforgevotelistener;
+package com.bebehp.mc.simpleforgevotelistener.vote;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,9 +16,11 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
+import com.bebehp.mc.simpleforgevotelistener.Reference;
+
 import net.minecraft.client.Minecraft;
 
-public class VoteOffline {
+public class VoteOffline implements IVoteEvent {
 
 	public static final File csvFile = new File(Minecraft.getMinecraft().mcDataDir, "offlinevote.csv");
 
@@ -102,17 +104,6 @@ public class VoteOffline {
 		}
 	}
 
-	public void onOfflineVote(final String name) {
-		if (this.map.containsKey(name)) {
-			final int count = this.map.get(name);
-			this.map.put(name, count+1);
-			saveAll(this.map);
-		} else {
-			this.map.put(name, 1);
-			postSave(name, 1);
-		}
-	}
-
 	public int collectVote(final String name) {
 		if (this.map.containsKey(name)) {
 			deleteUser(name);
@@ -122,4 +113,15 @@ public class VoteOffline {
 		}
 	}
 
+	@Override
+	public void onVote(final String name) {
+		if (this.map.containsKey(name)) {
+			final int count = this.map.get(name);
+			this.map.put(name, count+1);
+			saveAll(this.map);
+		} else {
+			this.map.put(name, 1);
+			postSave(name, 1);
+		}
+	}
 }
