@@ -21,6 +21,9 @@ public class VoteDataIO {
 
 	public VoteDataIO(final File file) {
 		this.loadFile = file;
+
+		if (this.loadFile.exists())
+			createFile();
 	}
 
 	public VoteDataIO(final File dataDir, final String fileName) {
@@ -35,7 +38,7 @@ public class VoteDataIO {
 			final Data data = new Gson().fromJson(jr, Data.class);
 			return data;
 		} catch (final FileNotFoundException e) {
-			return new Data(null, null, null, null);
+			return new Data();
 		} finally {
 			IOUtils.closeQuietly(jr);
 		}
@@ -51,6 +54,14 @@ public class VoteDataIO {
 			Reference.logger.info(e);
 		} finally {
 			IOUtils.closeQuietly(jw);
+		}
+	}
+
+	private void createFile() {
+		try {
+			this.loadFile.createNewFile();
+		} catch (final IOException e) {
+			Reference.logger.error(e);
 		}
 	}
 }
