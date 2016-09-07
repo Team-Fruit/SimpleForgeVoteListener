@@ -4,13 +4,13 @@ import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
 
 public class VoteOffline extends AbstractVoteEvent {
 
-
-	public VoteOffline() {
-		super();
+	public VoteOffline(final String name) {
+		super(name);
 	}
 
 	@Override
-	public void onVote(final String name) {
+	public void onVote() {
+		super.onVote();
 		if (ConfigurationHandler.offlineVoteEnable) {
 
 		}

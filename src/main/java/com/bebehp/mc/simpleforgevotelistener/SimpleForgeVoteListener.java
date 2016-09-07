@@ -5,8 +5,6 @@ import java.util.Map;
 
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSettingLoader;
 import com.bebehp.mc.simpleforgevotelistener.vote.VoteListener;
-import com.bebehp.mc.simpleforgevotelistener.vote.VoteOffline;
-import com.bebehp.mc.simpleforgevotelistener.vote.VoteOnline;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -22,10 +20,6 @@ import net.minecraftforge.common.MinecraftForge;
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class SimpleForgeVoteListener {
 
-	public final VoteOnline online = new VoteOnline();
-	public final VoteOffline offline = new VoteOffline();
-	public final VoteListener listener = new VoteListener(this.online, this.offline);
-
 	@Instance(Reference.MODID)
 	public static SimpleForgeVoteListener instance;
 
@@ -37,7 +31,7 @@ public class SimpleForgeVoteListener {
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(this.listener);
+		MinecraftForge.EVENT_BUS.register(VoteListener.INSTANCE);
 	}
 
 	@EventHandler

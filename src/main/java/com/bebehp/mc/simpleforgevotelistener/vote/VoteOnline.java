@@ -2,13 +2,13 @@ package com.bebehp.mc.simpleforgevotelistener.vote;
 
 public class VoteOnline extends AbstractVoteEvent {
 
-	public VoteOnline() {
-		super();
+	public VoteOnline(final String name) {
+		super(name);
 	}
 
 	@Override
-	public void onVote(final String name) {
-
+	public void onVote() {
+		super.onVote();
 	}
 
 }

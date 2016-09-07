@@ -4,7 +4,13 @@ import java.text.DecimalFormat;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public enum SettingAgrs {
+public enum SettingArgs {
+	USERNAME {
+		@Override
+		public String parseString(final String name, final EntityPlayerMP player) {
+			return name;
+		}
+	},
 	HOLDITEM {
 		@Override
 		public String parseString(final String name, final EntityPlayerMP player) {
