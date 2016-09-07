@@ -3,7 +3,7 @@ package com.bebehp.mc.simpleforgevotelistener;
 import java.io.File;
 import java.util.Map;
 
-import com.bebehp.mc.simpleforgevotelistener.json.JsonLoader;
+import com.bebehp.mc.simpleforgevotelistener.setting.JsonSettingLoader;
 import com.bebehp.mc.simpleforgevotelistener.vote.VoteListener;
 import com.bebehp.mc.simpleforgevotelistener.vote.VoteOffline;
 import com.bebehp.mc.simpleforgevotelistener.vote.VoteOnline;
@@ -32,7 +32,7 @@ public class SimpleForgeVoteListener {
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
-		JsonLoader.load(getModDataDir());
+		JsonSettingLoader.load(getModDataDir());
 	}
 
 	@EventHandler

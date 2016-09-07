@@ -1,65 +1,37 @@
 package com.bebehp.mc.simpleforgevotelistener.vote;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
-import com.bebehp.mc.simpleforgevotelistener.Reference;
 import com.bebehp.mc.simpleforgevotelistener.SimpleForgeVoteListener;
-import com.bebehp.mc.simpleforgevotelistener.json.JsonStringArgs;
+import com.bebehp.mc.simpleforgevotelistener.setting.SettingAgrs;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
 public abstract class AbstractVoteEvent implements IVote {
 
-	@Deprecated
-	public static final File csvFile = new File(Minecraft.getMinecraft().mcDataDir, "offlinevote.csv");
-	public static final File dataDir = SimpleForgeVoteListener.getModDataDir();
-	public static LinkedHashMap<String, Integer> map;
-
+	public static final File dataDir = new File(SimpleForgeVoteListener.getModDataDir(), "player");
 	public static final Pattern pattern = Pattern.compile("%[cbhdoxefgatn]", Pattern.CASE_INSENSITIVE);
 
+	protected LinkedHashMap<String, Data> map;
+
 	public AbstractVoteEvent() {
-		if (ConfigurationHandler.offlineVoteEnable)
-			loadCSV();
 	}
 
-	public void loadCSV() {
-		BufferedReader br = null;
-		try {
-			if (!csvFile.exists()) {
-				csvFile.createNewFile();
-				return;
-			}
+	public void loadJson(final String name) {
+		final File userFile = new File(dataDir, getUUID(name).toString() + ".json");
 
-			final FileReader fr = new FileReader(csvFile);
-			br = new BufferedReader(fr);
-			String line;
-			while ((line = br.readLine()) != null) {
-				final String[] array = line.split(",");
-				map.put(array[0], Integer.parseInt(array[1]));
-			}
-		} catch (final IOException e) {
-			Reference.logger.error(e);
-		} finally {
-			IOUtils.closeQuietly(br);
-		}
 	}
 
 	@Override
-	public String parse(final String name, final String raw, final String args) {
+	public String parseArgs(final String name, final String raw, final String args) {
 		if (!raw.contains("%s"))
 			return raw;
 
@@ -71,16 +43,16 @@ public abstract class AbstractVoteEvent implements IVote {
 				list.add(name);
 				continue;
 			} else if (StringUtils.equalsIgnoreCase(line, "holditem")) {
-				list.add(getArgs(JsonStringArgs.HOLDITEM, name, player));
+				list.add(getArgs(SettingAgrs.HOLDITEM, name, player));
 				continue;
 			} else if (StringUtils.equalsIgnoreCase(line, "posx")) {
-				list.add(getArgs(JsonStringArgs.POSX, name, player));
+				list.add(getArgs(SettingAgrs.POSX, name, player));
 				continue;
 			} else if (StringUtils.equalsIgnoreCase(line, "posy")) {
-				list.add(getArgs(JsonStringArgs.POSY, name, player));
+				list.add(getArgs(SettingAgrs.POSY, name, player));
 				continue;
 			} else if (StringUtils.equalsIgnoreCase(line, "posz")) {
-				list.add(getArgs(JsonStringArgs.POSZ, name, player));
+				list.add(getArgs(SettingAgrs.POSZ, name, player));
 				continue;
 			} else if (!StringUtils.isBlank(line)) {
 				list.add(line);
@@ -90,7 +62,7 @@ public abstract class AbstractVoteEvent implements IVote {
 		return String.format(text, list);
 	}
 
-	public String getArgs(final JsonStringArgs a, final String name, final EntityPlayerMP player) {
+	public String getArgs(final SettingAgrs a, final String name, final EntityPlayerMP player) {
 		return a.parseString(name, player);
 	}
 

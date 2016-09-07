@@ -1,10 +1,10 @@
-package com.bebehp.mc.simpleforgevotelistener.json;
+package com.bebehp.mc.simpleforgevotelistener.setting;
 
 import java.text.DecimalFormat;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public enum JsonStringArgs {
+public enum SettingAgrs {
 	HOLDITEM {
 		@Override
 		public String parseString(final String name, final EntityPlayerMP player) {

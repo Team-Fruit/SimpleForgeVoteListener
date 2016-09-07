@@ -1,4 +1,4 @@
-package com.bebehp.mc.simpleforgevotelistener.json;
+package com.bebehp.mc.simpleforgevotelistener.setting;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,8 +21,8 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 
-public class JsonLoader {
-	public static JsonConfig voteJson;
+public class JsonSettingLoader {
+	public static Setting voteJson;
 
 	public static void load(final File configDir) {
 		if (!configDir.exists())
@@ -34,13 +34,13 @@ public class JsonLoader {
 		voteJson = loadJson(jsonFile);
 	}
 
-	public static JsonConfig loadJson(final File jsonFile) {
+	public static Setting loadJson(final File jsonFile) {
 		final File mcDir = (File) FMLInjectionData.data()[6];
 		InputStreamReader isr;
 		try {
 			isr = new InputStreamReader(new FileInputStream(jsonFile));
 			final JsonReader jsr = new JsonReader(isr);
-			final JsonConfig voteJson = new Gson().fromJson(jsr, JsonConfig.class);
+			final Setting voteJson = new Gson().fromJson(jsr, Setting.class);
 			return voteJson;
 		} catch (final FileNotFoundException e) {
 			Reference.logger.error(e);

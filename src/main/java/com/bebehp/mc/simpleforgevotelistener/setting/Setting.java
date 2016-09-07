@@ -1,10 +1,10 @@
-package com.bebehp.mc.simpleforgevotelistener.json;
+package com.bebehp.mc.simpleforgevotelistener.setting;
 
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-public class JsonConfig {
+public class Setting {
 	public List<Commands> commands;
 	public List<GlobalChat> global_chat;
 	public List<PrivateChat> private_chat;

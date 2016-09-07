@@ -4,5 +4,5 @@ public interface IVote {
 
 	void onVote(String name);
 
-	String parse(String name, String raw, String args);
+	String parseArgs(String name, String raw, String args);
 }
