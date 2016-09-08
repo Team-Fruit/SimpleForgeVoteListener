@@ -15,11 +15,11 @@ import org.apache.commons.io.IOUtils;
 import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
 import com.bebehp.mc.simpleforgevotelistener.Reference;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.relauncher.FMLInjectionData;
 
 public class JsonSetting {
 	public static Setting voteJson;
@@ -33,15 +33,17 @@ public class JsonSetting {
 	}
 
 	public static Setting loadJson(final File jsonFile) {
-		final File mcDir = (File) FMLInjectionData.data()[6];
 		InputStreamReader isr;
 		try {
 			isr = new InputStreamReader(new FileInputStream(jsonFile));
 			final JsonReader jsr = new JsonReader(isr);
 			final Setting voteJson = new Gson().fromJson(jsr, Setting.class);
 			return voteJson;
+		} catch (final JsonParseException e) {
+			Reference.logger.error("The {} file in {} cannot be parsed as valid JSON. It will be ignored", ConfigurationHandler.jsonFileName, jsonFile);
+			return new Setting();
 		} catch (final FileNotFoundException e) {
-			Reference.logger.error(e);
+			Reference.logger.error("The {} file not found. Setting is ignored",  ConfigurationHandler.jsonFileName);
 			return new Setting();
 		}
 
@@ -54,7 +56,7 @@ public class JsonSetting {
 			JarFile jar = null;
 			try {
 				jar = new JarFile(runFile);
-				final ZipEntry ze = jar.getEntry("VoteEvent.json");
+				final ZipEntry ze = jar.getEntry("EventConfig.json");
 				if (ze != null) {
 					final InputStream is = jar.getInputStream(ze);
 					FileUtils.copyInputStreamToFile(is, destFile);
@@ -72,7 +74,7 @@ public class JsonSetting {
 		} else {
 			// dev
 			try {
-				final File file = new File(runFile, "VoteEvent.json");
+				final File file = new File(runFile, "EventConfig.json");
 				FileUtils.copyFile(file, destFile);
 				return true;
 			} catch (final IOException e) {

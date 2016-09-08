@@ -11,7 +11,7 @@ public class ConfigurationHandler {
 	public static final String VERSION = "1";
 	public static Configuration configuration;
 
-	public static final String JSON_DAFAULT_FILENAME = "VoteEvent.json";
+	public static final String JSON_DAFAULT_FILENAME = "EventConfig.json";
 	public static String jsonFileName = JSON_DAFAULT_FILENAME;
 	public static Property propJsonFileName = null;
 

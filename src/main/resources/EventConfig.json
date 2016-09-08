@@ -1,0 +1,41 @@
+{
+"commands": [
+	{
+		"string": "/give %s minecraft:iron_infot %s",
+		"args": "username,random5-10",
+		"option": ""
+	},
+	{
+		"string": "/effect %s 3 600 4",
+		"args": "username",
+		"option": "non_cumulative"
+	}
+],
+"global_chat": [
+	{
+		"string": "{\"text\":\"%s has voted!\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"%s\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Vote here! → %s\"}]}}}",
+		"args": "username",
+		"json": "true"
+	}
+],
+"private_chat": [
+	{
+		"string": "Thank you for your vote.",
+		"args": "",
+		"json": "false"
+	}
+],
+"offline_global_chat": [
+	{
+		"string": "%s has voted!",
+		"json": "false"
+	}
+],
+"on_cumulative_rewards_private_chat": [
+	{
+		"String": "%s vote was reward!",
+		"args": "count",
+		"json": "false"
+	}
+]
+}
