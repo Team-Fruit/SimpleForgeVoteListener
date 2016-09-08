@@ -17,9 +17,9 @@ import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
-public class VoteOnline extends AbstractVoteEvent {
+public class OnlineVoteEvent extends AbstractVoteEvent {
 
-	public VoteOnline(final VoteDataIO voteDataIO, final String name, final UUID uuid) {
+	public OnlineVoteEvent(final VoteDataIO voteDataIO, final String name, final UUID uuid) {
 		super(voteDataIO, name, uuid);
 	}
 

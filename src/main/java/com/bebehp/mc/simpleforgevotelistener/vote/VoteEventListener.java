@@ -12,11 +12,11 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
-public class VoteListener {
-	public static final VoteListener INSTANCE = new VoteListener();
+public class VoteEventListener {
+	public static final VoteEventListener INSTANCE = new VoteEventListener();
 	public static final File dataDir = new File(SimpleForgeVoteListener.getModDataDir(), "player");
 
-	private VoteListener() {
+	private VoteEventListener() {
 	}
 
 	@SubscribeEvent
@@ -30,9 +30,9 @@ public class VoteListener {
 		final UUID uuid = getUUID(name);
 		final VoteDataIO voteDataIO = new VoteDataIO(dataDir, uuid.toString() + ".json");
 		if (checkOnline(name)) {
-			final VoteOnline online = new VoteOnline(voteDataIO, name, uuid);
+			final OnlineVoteEvent online = new OnlineVoteEvent(voteDataIO, name, uuid);
 		} else {
-			final VoteOffline offline = new VoteOffline(voteDataIO, name, uuid);
+			final OfflineVoteEvent offline = new OfflineVoteEvent(voteDataIO, name, uuid);
 		}
 	}
 

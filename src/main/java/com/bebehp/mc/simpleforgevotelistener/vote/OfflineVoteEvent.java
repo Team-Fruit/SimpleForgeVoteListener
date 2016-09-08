@@ -10,9 +10,9 @@ import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.Offline_GlobalChat;
 import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
 
-public class VoteOffline extends AbstractVoteEvent {
+public class OfflineVoteEvent extends AbstractVoteEvent {
 
-	public VoteOffline(final VoteDataIO voteDataIO, final String name, final UUID uuid) {
+	public OfflineVoteEvent(final VoteDataIO voteDataIO, final String name, final UUID uuid) {
 		super(voteDataIO, name, uuid);
 	}
 

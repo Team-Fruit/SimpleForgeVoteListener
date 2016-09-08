@@ -17,7 +17,7 @@ import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
-public abstract class AbstractVoteEvent implements IVote {
+public abstract class AbstractVoteEvent implements IVoteEvent {
 
 	public static final Pattern pattern = Pattern.compile("%s");
 

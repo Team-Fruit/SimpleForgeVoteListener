@@ -1,6 +1,6 @@
 package com.bebehp.mc.simpleforgevotelistener.vote;
 
-public interface IVote {
+public interface IVoteEvent {
 
 	void onVote();
 
