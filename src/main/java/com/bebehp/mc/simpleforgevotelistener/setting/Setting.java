@@ -17,6 +17,7 @@ public class Setting {
 		this.global_chat = Collections.emptyList();
 		this.private_chat = Collections.emptyList();
 		this.offline_global_chat = Collections.emptyList();
+		this.on_cumulative_rewards_private_chat = Collections.emptyList();
 	}
 
 	public class Commands {

@@ -29,15 +29,15 @@ public class VoteOnline extends AbstractVoteEvent {
 
 		sendChat();
 		executeCommand();
+		sendPrivateChat();
 		final int offlineVoteTimes = Integer.parseInt(this.data.getVote_offline());
 		if (offlineVoteTimes > 0) {
 			if (ConfigurationHandler.offlineVoteEnable) {
-				optionalExecuteCommand();
 				sendCumulativeCountChat();
+				for (int i =0; i < offlineVoteTimes; i++)
+					optionalExecuteCommand();
 			}
 			this.data.setVote_offline(0);
-		} else {
-			sendPrivateChat();
 		}
 		this.voteDataIO.save(this.data);
 	}

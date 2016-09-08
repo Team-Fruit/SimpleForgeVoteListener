@@ -17,7 +17,7 @@ import com.google.gson.stream.JsonWriter;
 
 public class VoteDataIO {
 
-	protected File loadFile;
+	private final File loadFile;
 
 	public VoteDataIO(final File file) {
 		this.loadFile = file;
