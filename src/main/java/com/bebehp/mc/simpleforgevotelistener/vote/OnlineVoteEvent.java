@@ -27,8 +27,8 @@ public class OnlineVoteEvent extends AbstractVoteEvent {
 	public void onVote() {
 		super.onVote();
 
-		sendChat();
 		executeCommand();
+		sendChat();
 		sendPrivateChat();
 		final int offlineVoteTimes = Integer.parseInt(this.data.getVote_offline());
 		if (offlineVoteTimes > 0) {
@@ -67,7 +67,7 @@ public class OnlineVoteEvent extends AbstractVoteEvent {
 			final Iterator<Commands> it = list.iterator();
 			while (it.hasNext()) {
 				final Commands cmd = it.next();
-				if(StringUtils.equalsIgnoreCase(cmd.option, "non_cumulative")) {
+				if(!StringUtils.equalsIgnoreCase(cmd.option, "non_cumulative")) {
 					final SettingFormat format = new SettingFormat(this.name, cmd.str, cmd.args);
 					server.getCommandManager().executeCommand(server, format.parseArgs());
 				}
