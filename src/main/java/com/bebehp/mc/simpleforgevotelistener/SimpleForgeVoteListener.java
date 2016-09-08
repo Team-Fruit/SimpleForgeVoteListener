@@ -3,7 +3,7 @@ package com.bebehp.mc.simpleforgevotelistener;
 import java.io.File;
 import java.util.Map;
 
-import com.bebehp.mc.simpleforgevotelistener.setting.JsonSettingLoader;
+import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 import com.bebehp.mc.simpleforgevotelistener.vote.VoteListener;
 
 import cpw.mods.fml.common.Mod;
@@ -26,7 +26,9 @@ public class SimpleForgeVoteListener {
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
-		JsonSettingLoader.load(getModDataDir());
+		if (getModDataDir().exists())
+			getModDataDir().mkdirs();
+		JsonSetting.load(getModDataDir());
 	}
 
 	@EventHandler
@@ -49,4 +51,5 @@ public class SimpleForgeVoteListener {
 		final File mcDataDir = Minecraft.getMinecraft().mcDataDir;
 		return new File(mcDataDir, "vote");
 	}
+
 }

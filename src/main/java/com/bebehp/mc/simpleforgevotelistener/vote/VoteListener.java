@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.UUID;
 
 import com.bebehp.mc.simpleforgevotelistener.SimpleForgeVoteListener;
+import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 
@@ -22,12 +23,12 @@ public class VoteListener {
 	public void onVoteEvent(final VotifierEvent event) {
 		final Vote vote = event.getVote();
 		final String name = vote.getUsername();
-		final String fileName = getUUID(name).toString() + ".json";
-		final VoteDataIO voteDataIO = new VoteDataIO(dataDir, fileName);
+		final UUID uuid = getUUID(name);
+		final VoteDataIO voteDataIO = new VoteDataIO(dataDir, uuid.toString() + ".json");
 		if (checkOnline(name)) {
-			final VoteOnline online = new VoteOnline(voteDataIO, name);
+			final VoteOnline online = new VoteOnline(voteDataIO, name, uuid);
 		} else {
-			final VoteOffline offline = new VoteOffline(voteDataIO, name);
+			final VoteOffline offline = new VoteOffline(voteDataIO, name, uuid);
 		}
 	}
 

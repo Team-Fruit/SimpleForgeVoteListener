@@ -21,12 +21,10 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 
-public class JsonSettingLoader {
+public class JsonSetting {
 	public static Setting voteJson;
 
 	public static void load(final File configDir) {
-		if (!configDir.exists())
-			configDir.mkdirs();
 		final File jsonFile = new File(configDir, ConfigurationHandler.jsonFileName);
 		if (!jsonFile.exists())
 			if (!copyJson(jsonFile))
@@ -44,7 +42,7 @@ public class JsonSettingLoader {
 			return voteJson;
 		} catch (final FileNotFoundException e) {
 			Reference.logger.error(e);
-			return null;
+			return new Setting();
 		}
 
 	}

@@ -4,4 +4,10 @@ public interface IVote {
 
 	void onVote();
 
+	void executeCommand();
+
+	void sendChat();
+
+	void sendPrivateChat();
+
 }

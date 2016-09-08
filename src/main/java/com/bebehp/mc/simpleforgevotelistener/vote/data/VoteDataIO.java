@@ -1,4 +1,4 @@
-package com.bebehp.mc.simpleforgevotelistener.vote;
+package com.bebehp.mc.simpleforgevotelistener.vote.data;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,9 +21,6 @@ public class VoteDataIO {
 
 	public VoteDataIO(final File file) {
 		this.loadFile = file;
-
-		if (this.loadFile.exists())
-			createFile();
 	}
 
 	public VoteDataIO(final File dataDir, final String fileName) {
@@ -45,6 +42,9 @@ public class VoteDataIO {
 	}
 
 	public void save(final Data data) {
+		if (this.loadFile.exists())
+			createFile();
+
 		JsonWriter jw = null;
 		try {
 			final BufferedWriter bw = new BufferedWriter(new FileWriter(this.loadFile));
