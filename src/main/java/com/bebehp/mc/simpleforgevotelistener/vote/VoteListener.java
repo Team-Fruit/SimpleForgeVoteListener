@@ -23,6 +23,10 @@ public class VoteListener {
 	public void onVoteEvent(final VotifierEvent event) {
 		final Vote vote = event.getVote();
 		final String name = vote.getUsername();
+		reward(name);
+	}
+
+	public void reward(final String name) {
 		final UUID uuid = getUUID(name);
 		final VoteDataIO voteDataIO = new VoteDataIO(dataDir, uuid.toString() + ".json");
 		if (checkOnline(name)) {

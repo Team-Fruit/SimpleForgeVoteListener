@@ -38,7 +38,7 @@ public class SimpleForgeVoteListener {
 
 	@EventHandler
 	public void serverLoad(final FMLServerStartingEvent event) {
-
+		event.registerServerCommand(SFVLCommand.INSTANCE);
 	}
 
 
