@@ -16,7 +16,7 @@ public class Data {
 	}
 
 	public Data() {
-		this(null, "0", "0");
+		this("", "0", "0");
 	}
 
 	public String getUuid() {

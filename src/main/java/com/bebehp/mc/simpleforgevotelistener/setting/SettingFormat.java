@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -45,9 +44,13 @@ public class SettingFormat {
 			final String enumName = StringUtils.deleteWhitespace(line).toUpperCase();
 			if (EnumUtils.isValidEnum(SettingArgs.class, enumName)) {
 				list.add(getArgs(SettingArgs.valueOf(enumName)));
-			} else if (line.contains("random")){
+			} else if (line.contains("random")) {
 				final String[] value = StringUtils.remove(line, "random").split("-");
-				list.add(String.valueOf(RandomUtils.nextInt(NumberUtils.toInt(value[0], 1), NumberUtils.toInt(value[1], 1))));
+				try {
+					list.add(String.valueOf(RandomUtils.nextInt(Integer.parseInt(value[0]), Integer.parseInt(value[0]))));
+				} catch (final NumberFormatException e) {
+					list.add("1");
+				}
 			} else {
 				list.add(line);
 			}

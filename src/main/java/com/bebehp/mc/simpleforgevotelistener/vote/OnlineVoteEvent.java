@@ -27,6 +27,7 @@ public class OnlineVoteEvent extends AbstractVoteEvent {
 	public void onVote() {
 		super.onVote();
 
+
 		executeCommand();
 		sendChat();
 		sendPrivateChat();

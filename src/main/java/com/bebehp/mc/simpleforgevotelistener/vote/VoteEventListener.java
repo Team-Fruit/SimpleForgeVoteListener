@@ -27,12 +27,12 @@ public class VoteEventListener {
 	}
 
 	public void reward(final String name) {
-		final UUID uuid = getUUID(name);
-		final VoteDataIO voteDataIO = new VoteDataIO(dataDir, uuid.toString() + ".json");
+		final VoteDataIO voteDataIO = new VoteDataIO(dataDir, name + ".json");
 		if (checkOnline(name)) {
+			final UUID uuid = getUUID(name);
 			final OnlineVoteEvent online = new OnlineVoteEvent(voteDataIO, name, uuid);
 		} else {
-			final OfflineVoteEvent offline = new OfflineVoteEvent(voteDataIO, name, uuid);
+			final OfflineVoteEvent offline = new OfflineVoteEvent(voteDataIO, name, null);
 		}
 	}
 
