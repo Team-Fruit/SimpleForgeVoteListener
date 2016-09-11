@@ -10,4 +10,5 @@ public interface IVoteEvent {
 
 	void sendPrivateChat();
 
+	void sendOfflineChat();
 }

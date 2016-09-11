@@ -9,6 +9,7 @@ import com.bebehp.mc.simpleforgevotelistener.ChatUtil;
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.Commands;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.GlobalChat;
+import com.bebehp.mc.simpleforgevotelistener.setting.Setting.Offline_GlobalChat;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.PrivateChat;
 import com.bebehp.mc.simpleforgevotelistener.setting.SettingFormat;
 import com.bebehp.mc.simpleforgevotelistener.vote.data.Data;
@@ -35,9 +36,6 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 
 	@Override
 	public void onVote() {
-		if (this.data.getUuid() != this.uuid.toString())
-			return;
-
 		int voteCount = Integer.parseInt(this.data.getVote());
 		this.data.setVote(voteCount++);
 	}
@@ -87,6 +85,23 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 					player.addChatComponentMessage(ChatUtil.byJson(format.parseArgs()));
 				else
 					player.addChatComponentMessage(ChatUtil.byText(format.parseArgs()));
+			}
+		}
+	}
+
+	@Override
+	public void sendOfflineChat() {
+		if (JsonSetting.voteJson.offline_global_chat != null) {
+			final List list = JsonSetting.voteJson.offline_global_chat;
+			final Iterator<Offline_GlobalChat> it = list.iterator();
+			while (it.hasNext()) {
+				final Offline_GlobalChat chat = it.next();
+				final String message = pattern.matcher(chat.str).replaceAll(this.name);
+				final boolean isJson = Boolean.valueOf(chat.json);
+				if(isJson)
+					ChatUtil.sendServerChat(ChatUtil.byJson(message));
+				else
+					ChatUtil.sendServerChat(ChatUtil.byText(message));
 			}
 		}
 	}
