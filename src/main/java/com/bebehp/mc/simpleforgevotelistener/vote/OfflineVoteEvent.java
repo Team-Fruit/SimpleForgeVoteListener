@@ -13,7 +13,8 @@ public class OfflineVoteEvent extends AbstractVoteEvent {
 
 	@Override
 	public void onVote() {
-		super.onVote();
+		int voteCount = Integer.parseInt(this.data.getVote());
+		this.data.setVote(voteCount++);
 
 		sendOfflineChat();
 		if (this.uuid != null) {

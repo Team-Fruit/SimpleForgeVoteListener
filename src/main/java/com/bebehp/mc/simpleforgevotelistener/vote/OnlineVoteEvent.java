@@ -25,8 +25,8 @@ public class OnlineVoteEvent extends AbstractVoteEvent {
 
 	@Override
 	public void onVote() {
-		super.onVote();
-
+		int voteCount = Integer.parseInt(this.data.getVote());
+		this.data.setVote(voteCount++);
 
 		executeCommand();
 		sendChat();

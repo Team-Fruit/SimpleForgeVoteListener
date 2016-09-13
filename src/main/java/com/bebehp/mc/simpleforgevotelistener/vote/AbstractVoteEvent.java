@@ -34,13 +34,6 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 		this.data = voteDataIO.load();
 	}
 
-	@Override
-	public void onVote() {
-		int voteCount = Integer.parseInt(this.data.getVote());
-		this.data.setVote(voteCount++);
-	}
-
-	@Override
 	public void executeCommand() {
 		if (JsonSetting.voteJson.commands != null) {
 			final MinecraftServer server = MinecraftServer.getServer();
@@ -54,7 +47,6 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 		}
 	}
 
-	@Override
 	public void sendChat() {
 		if (JsonSetting.voteJson.global_chat != null) {
 			final List list = JsonSetting.voteJson.global_chat;
@@ -71,7 +63,6 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 		}
 	}
 
-	@Override
 	public void sendPrivateChat() {
 		if (JsonSetting.voteJson.private_chat != null) {
 			final List list = JsonSetting.voteJson.private_chat;
@@ -89,7 +80,6 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 		}
 	}
 
-	@Override
 	public void sendOfflineChat() {
 		if (JsonSetting.voteJson.offline_global_chat != null) {
 			final List list = JsonSetting.voteJson.offline_global_chat;

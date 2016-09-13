@@ -4,11 +4,4 @@ public interface IVoteEvent {
 
 	void onVote();
 
-	void executeCommand();
-
-	void sendChat();
-
-	void sendPrivateChat();
-
-	void sendOfflineChat();
 }

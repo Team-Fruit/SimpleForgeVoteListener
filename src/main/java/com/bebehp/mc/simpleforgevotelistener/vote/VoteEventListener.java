@@ -39,18 +39,20 @@ public class VoteEventListener {
 
 	public void reward(final String name) {
 		UUID uuid = null;
+		IVoteEvent voteEvent = null;
 		if (checkOnline(name)) {
 			uuid = getUUID(name);
-			new OnlineVoteEvent(new VoteDataIO(dataDir, uuid + ".json"), name, uuid).onVote();
+			voteEvent = new OnlineVoteEvent(new VoteDataIO(dataDir, uuid + ".json"), name, uuid);
 		} else {
 			final BiMap<String, String> map = readUserNameCache();
 			if (map.containsValue(name)) {
 				uuid = UUID.fromString(map.inverse().get(name));
-				new OfflineVoteEvent(new VoteDataIO(dataDir, uuid + ".json"), name, uuid).onVote();
+				voteEvent = new OfflineVoteEvent(new VoteDataIO(dataDir, uuid + ".json"), name, uuid);
 			} else {
-				new DummyVoteEvent(name).onVote();
+				voteEvent = new DummyVoteEvent(name);
 			}
 		}
+		voteEvent.onVote();
 	}
 
 	public static boolean checkOnline(final String username) {
