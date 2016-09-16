@@ -12,6 +12,9 @@ public class Setting {
 	public List<Offline_GlobalChat> offline_global_chat;
 	public List<C_PrivateChat> on_cumulative_rewards_private_chat;
 
+	/**
+	 * EmptyListで初期化します
+	 */
 	public Setting() {
 		this.commands = Collections.emptyList();
 		this.global_chat = Collections.emptyList();

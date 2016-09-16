@@ -15,10 +15,6 @@ public class Data {
 		this(uuid, Integer.toString(vote), Integer.toString(vote_offline));
 	}
 
-	public Data() {
-		this("", "0", "0");
-	}
-
 	public String getUuid() {
 		return this.uuid;
 	}
