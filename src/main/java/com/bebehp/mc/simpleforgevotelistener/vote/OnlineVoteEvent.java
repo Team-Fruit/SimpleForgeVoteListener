@@ -64,7 +64,7 @@ public class OnlineVoteEvent extends AbstractVoteEvent {
 	}
 
 	private void optionalExecuteCommand() {
-		if (JsonSetting.voteJson.commands == null) {
+		if (JsonSetting.voteJson.commands != null) {
 			final MinecraftServer server = MinecraftServer.getServer();
 			final List list = JsonSetting.voteJson.commands;
 			final Iterator<Commands> it = list.iterator();

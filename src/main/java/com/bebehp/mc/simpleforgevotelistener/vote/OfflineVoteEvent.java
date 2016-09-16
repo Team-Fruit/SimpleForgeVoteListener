@@ -19,12 +19,10 @@ public class OfflineVoteEvent extends AbstractVoteEvent {
 			this.data.setUuid(this.uuid.toString());
 
 		sendOfflineChat();
-		if (this.uuid != null) {
-			if (ConfigurationHandler.offlineVoteEnable) {
-				int offlineVoteCount = Integer.parseInt(this.data.getVote_offline());
-				this.data.setVote_offline(offlineVoteCount++);
-			}
-			this.voteDataIO.save(this.data);
+		if (ConfigurationHandler.offlineVoteEnable) {
+			int offlineVoteCount = Integer.parseInt(this.data.getVote_offline());
+			this.data.setVote_offline(++offlineVoteCount);
 		}
+		this.voteDataIO.save(this.data);
 	}
 }
