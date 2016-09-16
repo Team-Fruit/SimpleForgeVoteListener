@@ -22,6 +22,8 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 
 public class JsonSetting {
+	public static final String DEFAULT_FILENAME = "EventConfig.json";
+
 	public static Setting voteJson;
 
 	public static void load(final File configDir) {
@@ -33,10 +35,9 @@ public class JsonSetting {
 	}
 
 	public static Setting loadJson(final File jsonFile) {
-		InputStreamReader isr;
+		JsonReader jsr = null;
 		try {
-			isr = new InputStreamReader(new FileInputStream(jsonFile));
-			final JsonReader jsr = new JsonReader(isr);
+			jsr = new JsonReader(new InputStreamReader(new FileInputStream(jsonFile)));
 			final Setting voteJson = new Gson().fromJson(jsr, Setting.class);
 			return voteJson;
 		} catch (final JsonParseException e) {
@@ -45,6 +46,8 @@ public class JsonSetting {
 		} catch (final FileNotFoundException e) {
 			Reference.logger.error("The {} file not found. Setting is ignored",  ConfigurationHandler.jsonFileName);
 			return new Setting();
+		} finally {
+			IOUtils.closeQuietly(jsr);
 		}
 
 	}
@@ -56,7 +59,7 @@ public class JsonSetting {
 			JarFile jar = null;
 			try {
 				jar = new JarFile(runFile);
-				final ZipEntry ze = jar.getEntry("EventConfig.json");
+				final ZipEntry ze = jar.getEntry(DEFAULT_FILENAME);
 				if (ze != null) {
 					final InputStream is = jar.getInputStream(ze);
 					FileUtils.copyInputStreamToFile(is, destFile);
@@ -74,7 +77,7 @@ public class JsonSetting {
 		} else {
 			// dev
 			try {
-				final File file = new File(runFile, "EventConfig.json");
+				final File file = new File(runFile, DEFAULT_FILENAME);
 				FileUtils.copyFile(file, destFile);
 				return true;
 			} catch (final IOException e) {

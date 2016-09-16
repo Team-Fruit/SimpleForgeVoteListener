@@ -47,8 +47,7 @@ public class VoteDataIO {
 
 		JsonWriter jw = null;
 		try {
-			final BufferedWriter bw = new BufferedWriter(new FileWriter(this.loadFile));
-			jw = new JsonWriter(bw);
+			jw = new JsonWriter(new BufferedWriter(new FileWriter(this.loadFile)));
 			new Gson().toJson(data, Data.class, jw);
 		} catch (final IOException e) {
 			Reference.logger.info(e);
