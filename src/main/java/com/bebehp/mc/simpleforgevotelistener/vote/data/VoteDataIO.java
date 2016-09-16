@@ -35,7 +35,7 @@ public class VoteDataIO {
 			final Data data = new Gson().fromJson(jr, Data.class);
 			return data;
 		} catch (final FileNotFoundException e) {
-			return new Data("", "0", "0");
+			return new Data(null, 0, 0);
 		} finally {
 			IOUtils.closeQuietly(jr);
 		}
