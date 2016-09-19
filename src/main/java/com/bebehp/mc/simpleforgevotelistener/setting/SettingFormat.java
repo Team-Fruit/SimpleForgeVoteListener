@@ -42,13 +42,13 @@ public class SettingFormat {
 		final List<String> list = new LinkedList<String>();
 		for (final String line : this.args) {
 			final String enumName = StringUtils.deleteWhitespace(line).toUpperCase();
-			if (EnumUtils.isValidEnum(SettingArgs.class, enumName)) {
-				list.add(getArgs(SettingArgs.valueOf(enumName)));
+			if (EnumUtils.isValidEnum(EnumSettingArgs.class, enumName)) {
+				list.add(getArgs(EnumSettingArgs.valueOf(enumName)));
 			} else if (line.contains("random")) {
 				final String[] value = StringUtils.remove(line, "random").split("-");
 				try {
-					list.add(String.valueOf(RandomUtils.nextInt(Integer.parseInt(value[0]), Integer.parseInt(value[0]))));
-				} catch (final NumberFormatException e) {
+					list.add(String.valueOf(RandomUtils.nextInt(Integer.parseInt(value[0]), Integer.parseInt(value[1]))));
+				} catch (final Exception e) {
 					list.add("1");
 				}
 			} else {
@@ -59,7 +59,7 @@ public class SettingFormat {
 		return String.format(text, list);
 	}
 
-	private String getArgs(final SettingArgs a) {
+	private String getArgs(final EnumSettingArgs a) {
 		return a.parseString(this.name, this.player);
 	}
 }
