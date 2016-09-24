@@ -15,20 +15,18 @@ public class SettingFormat {
 
 	public static final Pattern pattern = Pattern.compile("%[cbhdoxefgatn]", Pattern.CASE_INSENSITIVE);
 
-	private final String name;
 	private final String rawText;
 	private final String[] args;
 	private final EntityPlayerMP player;
 
-	public SettingFormat(final String name, final String rawText, final String[] argArray, final EntityPlayerMP player) {
-		this.name = name;
+	public SettingFormat(final String name, final String rawText, final String[] argArray) {
 		this.rawText = rawText;
 		this.args = argArray;
-		this.player = player;
+		this.player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(name);
 	}
 
 	public SettingFormat(final String name, final String rawText, final String rawArgs) {
-		this(name, rawText, rawArgs.split(","), MinecraftServer.getServer().getConfigurationManager().func_152612_a(name));
+		this(name, rawText, rawArgs.split(","));
 	}
 
 	public String parseArgs() {
@@ -56,6 +54,6 @@ public class SettingFormat {
 	}
 
 	private String getArgs(final EnumSettingArgs a) {
-		return a.parseString(this.name, this.player);
+		return a.parseString(this.player);
 	}
 }
