@@ -27,12 +27,8 @@ public class SettingFormat {
 		this.player = player;
 	}
 
-	public SettingFormat (final String name, final String rawText, final String[] argArray) {
-		this(name, rawText, argArray, MinecraftServer.getServer().getConfigurationManager().func_152612_a(name));
-	}
-
 	public SettingFormat(final String name, final String rawText, final String rawArgs) {
-		this(name, rawText, rawArgs.split(","));
+		this(name, rawText, rawArgs.split(","), MinecraftServer.getServer().getConfigurationManager().func_152612_a(name));
 	}
 
 	public String parseArgs() {
@@ -45,8 +41,8 @@ public class SettingFormat {
 			if (EnumUtils.isValidEnum(EnumSettingArgs.class, enumName)) {
 				list.add(getArgs(EnumSettingArgs.valueOf(enumName)));
 			} else if (line.contains("random")) {
-				final String[] value = StringUtils.remove(line, "random").split("-");
 				try {
+					final String[] value = StringUtils.remove(line, "random").split("-");
 					list.add(String.valueOf(RandomUtils.nextInt(Integer.parseInt(value[0]), Integer.parseInt(value[1]))));
 				} catch (final Exception e) {
 					list.add("1");

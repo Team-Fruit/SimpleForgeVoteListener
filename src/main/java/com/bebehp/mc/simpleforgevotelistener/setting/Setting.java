@@ -29,24 +29,28 @@ public class Setting {
 		public String args;
 		public String option;
 	}
+
 	public class GlobalChat {
 		@SerializedName("string")
 		public String str;
 		public String args;
 		public String json;
 	}
+
 	public class PrivateChat {
 		@SerializedName("string")
 		public String str;
 		public String args;
 		public String json;
 	}
+
 	public class Offline_GlobalChat {
 		@SerializedName("string")
 		public String str;
 		//		public String args;
 		public String json;
 	}
+
 	public class C_PrivateChat {
 		@SerializedName("string")
 		public String str;

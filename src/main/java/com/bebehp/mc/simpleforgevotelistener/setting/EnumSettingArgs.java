@@ -14,7 +14,7 @@ public enum EnumSettingArgs {
 	HOLDITEM {
 		@Override
 		public String parseString(final String name, final EntityPlayerMP player) {
-			return player.getHeldItem().toString();
+			return player.getHeldItem().getDisplayName();
 		}
 	},
 	POSX {
