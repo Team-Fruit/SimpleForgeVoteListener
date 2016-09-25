@@ -13,7 +13,7 @@ import net.minecraft.server.MinecraftServer;
 
 public class SettingFormat {
 
-	public static final Pattern pattern = Pattern.compile("%[cbhdoxefgatn]", Pattern.CASE_INSENSITIVE);
+	public static final Pattern EXCLUSION_FORMAT = Pattern.compile("%[cbhdoxefgatn]", Pattern.CASE_INSENSITIVE);
 
 	private final String rawText;
 	private final String[] args;
@@ -26,34 +26,63 @@ public class SettingFormat {
 	}
 
 	public SettingFormat(final String name, final String rawText, final String rawArgs) {
-		this(name, rawText, rawArgs.split(","));
+		this(name, rawText, StringUtils.split(rawArgs, ","));
 	}
 
 	public String parseArgs() {
-		if (!this.rawText.contains("%s"))
+		if (!StringUtils.containsIgnoreCase(this.rawText, "%s"))
 			return this.rawText;
 
 		final List<String> list = new LinkedList<String>();
 		for (final String line : this.args) {
-			final String enumName = StringUtils.deleteWhitespace(line).toUpperCase();
+			final String enumName = StringUtils.upperCase(StringUtils.deleteWhitespace(line));
 			if (EnumUtils.isValidEnum(EnumSettingArgs.class, enumName)) {
 				list.add(getArgs(EnumSettingArgs.valueOf(enumName)));
-			} else if (line.contains("random")) {
-				try {
-					final String[] value = StringUtils.remove(line, "random").split("-");
-					list.add(String.valueOf(RandomUtils.nextInt(Integer.parseInt(value[0]), Integer.parseInt(value[1]))));
-				} catch (final Exception e) {
+			} else if (StringUtils.startsWithIgnoreCase(line, "random")) {
+				final String[] values = StringUtils.split(StringUtils.removeStartIgnoreCase(line, "random"), "-");
+				if (values.length >= 2)
+					getStringRandomNumber(values[0], values[1], "1");
+				else if (values.length == 1 && StringUtils.isNumeric(values[0]))
+					list.add(values[0]);
+				else
 					list.add("1");
-				}
 			} else {
-				list.add(line);
+				if (line != null)
+					list.add(line);
+				else
+					list.add("");
 			}
 		}
-		final String text = pattern.matcher(this.rawText).replaceAll("");
+		final String text = EXCLUSION_FORMAT.matcher(this.rawText).replaceAll("");
 		return String.format(text, list);
 	}
 
 	private String getArgs(final EnumSettingArgs a) {
 		return a.parseString(this.player);
 	}
+
+	public static String getStringRandomNumber(final String startInclusive, final String endExclusive) {
+		return getStringRandomNumber(startInclusive, endExclusive, "0");
+	}
+
+	public static String getStringRandomNumber(final String startInclusive, final String endExclusive, final String defaultString) {
+		if (startInclusive == null || endExclusive == null)
+			return defaultString;
+
+		try {
+			final int intStartInclusive = Integer.parseInt(startInclusive);
+			final int intEndExclusive = Integer.parseInt(endExclusive);
+
+			if (intStartInclusive == intEndExclusive)
+				return startInclusive;
+
+			final int randomNumber = RandomUtils.nextInt(intStartInclusive, intEndExclusive);
+			return String.valueOf(randomNumber);
+		} catch (final NumberFormatException nfe) {
+			return defaultString;
+		} catch (final IllegalArgumentException iae) {
+			return defaultString;
+		}
+	}
+
 }
