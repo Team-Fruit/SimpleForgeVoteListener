@@ -68,10 +68,9 @@ public class VoteEventListener {
 
 	public static UUID getUUID(final String name) {
 		final EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(name);
-		if (player != null)
-			return player.getGameProfile().getId();
-		else
+		if (player == null)
 			return null;
+		return player.getGameProfile().getId();
 	}
 
 	public static Map<String, String> readUserNameCache() {

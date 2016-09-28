@@ -73,9 +73,9 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 				final EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.name);
 				final boolean isJson = Boolean.valueOf(chat.json);
 				if(isJson)
-					player.addChatComponentMessage(ChatUtil.byJson(format.parseArgs()));
+					ChatUtil.sendPlayerChat(player, ChatUtil.byJson(format.parseArgs()));
 				else
-					player.addChatComponentMessage(ChatUtil.byText(format.parseArgs()));
+					ChatUtil.sendPlayerChat(player, ChatUtil.byText(format.parseArgs()));
 			}
 		}
 	}

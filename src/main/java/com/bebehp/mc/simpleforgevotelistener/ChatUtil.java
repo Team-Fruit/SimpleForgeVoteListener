@@ -14,9 +14,10 @@ import net.minecraft.util.IChatComponent;
 
 public abstract class ChatUtil {
 	public static void sendPlayerChat(final ICommandSender target, final IChatComponent... components) {
-		for (final IChatComponent line : components) {
-			target.addChatMessage(line);
-		}
+		if (target != null)
+			for (final IChatComponent line : components) {
+				target.addChatMessage(line);
+			}
 	}
 
 	public static void sendServerChat(final IChatComponent... components) {
