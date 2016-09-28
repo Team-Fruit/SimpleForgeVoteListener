@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
@@ -13,6 +15,7 @@ import com.bebehp.mc.simpleforgevotelistener.Reference;
 import com.bebehp.mc.simpleforgevotelistener.SimpleForgeVoteListener;
 import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
 import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.vexsoftware.votifier.model.Vote;
@@ -38,13 +41,12 @@ public class VoteEventListener {
 	}
 
 	public void reward(final String name) {
-		UUID uuid = null;
+		UUID uuid = getUUID(name);
 		IVoteEvent voteEvent = null;
-		if (checkOnline(name)) {
-			uuid = getUUID(name);
+		if (uuid != null) {
 			voteEvent = new OnlineVoteEvent(new VoteDataIO(dataDir, uuid + ".json"), name, uuid);
 		} else {
-			final BiMap<String, String> map = readUserNameCache();
+			final BiMap<String, String> map = HashBiMap.create(readUserNameCache());
 			if (map.containsValue(name)) {
 				uuid = UUID.fromString(map.inverse().get(name));
 				voteEvent = new OfflineVoteEvent(new VoteDataIO(dataDir, uuid + ".json"), name, uuid);
@@ -55,6 +57,7 @@ public class VoteEventListener {
 		voteEvent.onVote();
 	}
 
+	@Deprecated
 	public static boolean checkOnline(final String username) {
 		for(final String line :  MinecraftServer.getServer().getAllUsernames()) {
 			if (line == username)
@@ -65,19 +68,23 @@ public class VoteEventListener {
 
 	public static UUID getUUID(final String name) {
 		final EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(name);
-		return player.getGameProfile().getId();
+		if (player != null)
+			return player.getGameProfile().getId();
+		else
+			return null;
 	}
 
-	public static BiMap<String, String> readUserNameCache() {
+	public static Map<String, String> readUserNameCache() {
 		JsonReader jr = null;
 		try {
 			final File file = new File(FMLServerHandler.instance().getSavesDirectory(), "usernamecache.json");
 			final BufferedReader br = new BufferedReader(new FileReader(file));
 			jr = new JsonReader(br);
-			return new Gson().fromJson(jr, BiMap.class);
+			final Map<String, String> map = new HashMap<String, String>();
+			return new Gson().fromJson(jr, map.getClass());
 		} catch (final FileNotFoundException e) {
 			Reference.logger.error("The usernamecache.json file not found.");
-			return (BiMap) Collections.emptyMap();
+			return Collections.emptyMap();
 		} finally {
 			IOUtils.closeQuietly(jr);
 		}

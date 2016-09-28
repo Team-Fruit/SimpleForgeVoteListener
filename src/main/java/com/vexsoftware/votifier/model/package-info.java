@@ -1,6 +1,6 @@
 /**
  * Lisence and copyright
- * https://raw.githubusercontent.com/vexsoftware/votifier/master/LICENSE
+ * https://github.com/vexsoftware/votifier/blob/master/LICENSE
  */
 /**
  * This package is from the Votifier.

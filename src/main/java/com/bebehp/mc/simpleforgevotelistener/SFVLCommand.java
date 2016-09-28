@@ -60,7 +60,7 @@ public class SFVLCommand extends CommandBase {
 	@Override
 	public List addTabCompletionOptions(final ICommandSender icommandsender, final String[] astring) {
 		if (astring.length <= 1) {
-			return Arrays.asList("vote", "reload");
+			return getListOfStringsMatchingLastWord(astring, "vote", "reload");
 		} else if (astring.length <= 2 && StringUtils.equalsIgnoreCase(astring[0], "reload")) {
 			return getListOfStringsMatchingLastWord(astring, MinecraftServer.getServer().getAllUsernames());
 		} else {
