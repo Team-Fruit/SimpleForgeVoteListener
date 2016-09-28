@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 import com.bebehp.mc.simpleforgevotelistener.vote.VoteEventListener;
+import com.vexsoftware.votifier.model.Vote;
+import com.vexsoftware.votifier.model.VotifierEvent;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -46,7 +48,10 @@ public class SFVLCommand extends CommandBase {
 				name = icommandsender.getCommandSenderName();
 			else
 				name = astring[1];
-			VoteEventListener.INSTANCE.reward(name);
+			final Vote vote = new Vote();
+			vote.setUsername(name);
+			vote.setServiceName(Reference.MODID);
+			VoteEventListener.INSTANCE.onVoteEvent(new VotifierEvent(vote));
 		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "reload")) {
 			JsonSetting.load(SimpleForgeVoteListener.getModDataDir());
 		}

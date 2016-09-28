@@ -43,7 +43,6 @@ public class SimpleForgeVoteListener {
 		event.registerServerCommand(SFVLCommand.INSTANCE);
 	}
 
-
 	@NetworkCheckHandler
 	public boolean checkModList(final Map<String, String> versions, final Side side) {
 		return true;
