@@ -35,6 +35,7 @@ public class SimpleForgeVoteListener {
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
+		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(VoteEventListener.INSTANCE);
 	}
 
@@ -53,7 +54,7 @@ public class SimpleForgeVoteListener {
 		try {
 			return new File(file.getCanonicalFile(), "vote");
 		} catch (final IOException e) {
-			Reference.logger.debug("Could not canonize path!", e);
+			Reference.logger.error("Could not canonize path!", e);
 		}
 		return new File(file, "vote");
 	}

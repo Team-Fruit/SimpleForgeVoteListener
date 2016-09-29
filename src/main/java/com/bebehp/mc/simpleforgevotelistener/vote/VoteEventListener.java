@@ -17,6 +17,7 @@ import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
@@ -42,7 +43,7 @@ public class VoteEventListener {
 
 	public void reward(final String name) {
 		UUID uuid = getUUID(name);
-		IVoteEvent voteEvent = null;
+		IVoteEvent voteEvent;
 		if (uuid != null) {
 			voteEvent = new OnlineVoteEvent(new VoteDataIO(dataDir, uuid + ".json"), name, uuid);
 		} else {
@@ -59,7 +60,7 @@ public class VoteEventListener {
 
 	@Deprecated
 	public static boolean checkOnline(final String username) {
-		for(final String line :  MinecraftServer.getServer().getAllUsernames()) {
+		for(final String line : MinecraftServer.getServer().getAllUsernames()) {
 			if (line == username)
 				return true;
 		}
@@ -81,11 +82,13 @@ public class VoteEventListener {
 			jr = new JsonReader(br);
 			final Map<String, String> map = new HashMap<String, String>();
 			return new Gson().fromJson(jr, map.getClass());
-		} catch (final FileNotFoundException e) {
+		} catch (final FileNotFoundException fnfe) {
 			Reference.logger.error("The usernamecache.json file not found.");
-			return Collections.emptyMap();
+		} catch (final JsonSyntaxException jse) {
+			Reference.logger.error(jse);
 		} finally {
 			IOUtils.closeQuietly(jr);
 		}
+		return Collections.emptyMap();
 	}
 }

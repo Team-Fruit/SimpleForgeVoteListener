@@ -29,9 +29,8 @@ public class JsonSetting {
 	public static void load(final File configDir) {
 		final File jsonFile = new File(configDir, ConfigurationHandler.jsonFileName);
 		if (!jsonFile.exists())
-			if (!copyJson(jsonFile))
-				return;
-		voteJson = loadJson(jsonFile);
+			if (copyJson(jsonFile))
+				voteJson = loadJson(jsonFile);
 	}
 
 	public static Setting loadJson(final File jsonFile) {
@@ -42,14 +41,12 @@ public class JsonSetting {
 			return voteJson;
 		} catch (final JsonParseException e) {
 			Reference.logger.error("The {} file in {} cannot be parsed as valid JSON. It will be ignored", ConfigurationHandler.jsonFileName, jsonFile);
-			return new Setting();
 		} catch (final FileNotFoundException e) {
 			Reference.logger.error("The {} file not found. Setting is ignored",  ConfigurationHandler.jsonFileName);
-			return new Setting();
 		} finally {
 			IOUtils.closeQuietly(jsr);
 		}
-
+		return new Setting();
 	}
 
 	public static boolean copyJson(final File destFile) {
@@ -66,11 +63,9 @@ public class JsonSetting {
 					return true;
 				} else {
 					Reference.logger.warn("Sample json file not found.");
-					return false;
 				}
 			} catch (final IOException e) {
 				Reference.logger.error(e);
-				return false;
 			} finally {
 				IOUtils.closeQuietly(jar);
 			}
@@ -82,9 +77,9 @@ public class JsonSetting {
 				return true;
 			} catch (final IOException e) {
 				Reference.logger.error(e);
-				return false;
 			}
 		}
+		return false;
 	}
 
 }

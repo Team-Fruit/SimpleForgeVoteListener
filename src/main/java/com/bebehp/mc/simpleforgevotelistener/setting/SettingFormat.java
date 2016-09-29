@@ -69,12 +69,12 @@ public class SettingFormat {
 		if (startInclusive == null || endExclusive == null)
 			return defaultString;
 
+		if (startInclusive == endExclusive)
+			return startInclusive;
+
 		try {
 			final int intStartInclusive = Integer.parseInt(startInclusive);
 			final int intEndExclusive = Integer.parseInt(endExclusive);
-
-			if (intStartInclusive == intEndExclusive)
-				return startInclusive;
 
 			final int randomNumber = RandomUtils.nextInt(intStartInclusive, intEndExclusive);
 			return String.valueOf(randomNumber);
