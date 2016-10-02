@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bebehp.mc.simpleforgevotelistener.handler.VoteHandler;
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
-import com.bebehp.mc.simpleforgevotelistener.vote.VoteEventListener;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 
@@ -51,7 +51,7 @@ public class SFVLCommand extends CommandBase {
 			final Vote vote = new Vote();
 			vote.setUsername(name);
 			vote.setServiceName(Reference.MODID);
-			VoteEventListener.INSTANCE.onVoteEvent(new VotifierEvent(vote));
+			VoteHandler.INSTANCE.onVoteEvent(new VotifierEvent(vote));
 		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "reload")) {
 			JsonSetting.load(SimpleForgeVoteListener.getModDataDir());
 		}

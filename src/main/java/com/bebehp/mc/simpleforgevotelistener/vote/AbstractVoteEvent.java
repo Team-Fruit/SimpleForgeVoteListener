@@ -6,14 +6,14 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import com.bebehp.mc.simpleforgevotelistener.ChatUtil;
+import com.bebehp.mc.simpleforgevotelistener.player.Data;
+import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.Commands;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.GlobalChat;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.Offline_GlobalChat;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.PrivateChat;
 import com.bebehp.mc.simpleforgevotelistener.setting.SettingFormat;
-import com.bebehp.mc.simpleforgevotelistener.vote.data.Data;
-import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;

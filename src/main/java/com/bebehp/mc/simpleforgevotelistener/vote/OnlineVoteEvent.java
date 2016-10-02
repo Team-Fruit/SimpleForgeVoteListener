@@ -7,12 +7,12 @@ import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bebehp.mc.simpleforgevotelistener.ChatUtil;
-import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
+import com.bebehp.mc.simpleforgevotelistener.handler.ConfigurationHandler;
+import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.C_PrivateChat;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.Commands;
 import com.bebehp.mc.simpleforgevotelistener.setting.SettingFormat;
-import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;

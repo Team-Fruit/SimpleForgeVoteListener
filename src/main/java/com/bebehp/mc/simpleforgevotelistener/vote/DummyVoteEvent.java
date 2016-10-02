@@ -2,7 +2,7 @@ package com.bebehp.mc.simpleforgevotelistener.vote;
 
 import java.util.UUID;
 
-import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
+import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
 
 public class DummyVoteEvent extends AbstractVoteEvent {
 

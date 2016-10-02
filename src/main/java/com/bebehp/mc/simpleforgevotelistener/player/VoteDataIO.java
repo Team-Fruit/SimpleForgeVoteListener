@@ -1,4 +1,4 @@
-package com.bebehp.mc.simpleforgevotelistener.vote.data;
+package com.bebehp.mc.simpleforgevotelistener.player;
 
 import java.io.BufferedWriter;
 import java.io.File;

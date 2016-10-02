@@ -2,8 +2,8 @@ package com.bebehp.mc.simpleforgevotelistener.vote;
 
 import java.util.UUID;
 
-import com.bebehp.mc.simpleforgevotelistener.ConfigurationHandler;
-import com.bebehp.mc.simpleforgevotelistener.vote.data.VoteDataIO;
+import com.bebehp.mc.simpleforgevotelistener.handler.ConfigurationHandler;
+import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
 
 public class OfflineVoteEvent extends AbstractVoteEvent {
 

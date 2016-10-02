@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import com.bebehp.mc.simpleforgevotelistener.handler.ConfigurationHandler;
+import com.bebehp.mc.simpleforgevotelistener.handler.VoteHandler;
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
-import com.bebehp.mc.simpleforgevotelistener.vote.VoteEventListener;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -24,6 +25,8 @@ public class SimpleForgeVoteListener {
 	@Instance(Reference.MODID)
 	public static SimpleForgeVoteListener instance;
 
+	public static final File DATA_DIR = new File(SimpleForgeVoteListener.getModDataDir(), "player");
+
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
@@ -36,7 +39,7 @@ public class SimpleForgeVoteListener {
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
-		MinecraftForge.EVENT_BUS.register(VoteEventListener.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(VoteHandler.INSTANCE);
 	}
 
 	@EventHandler
