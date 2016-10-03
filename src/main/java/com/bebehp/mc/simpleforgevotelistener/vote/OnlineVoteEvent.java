@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bebehp.mc.simpleforgevotelistener.ChatUtil;
 import com.bebehp.mc.simpleforgevotelistener.handler.ConfigurationHandler;
 import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
+import com.bebehp.mc.simpleforgevotelistener.player.VoterPlayer;
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.C_PrivateChat;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.Commands;
@@ -21,6 +22,10 @@ public class OnlineVoteEvent extends AbstractVoteEvent {
 
 	public OnlineVoteEvent(final VoteDataIO voteDataIO, final String name, final UUID uuid) {
 		super(voteDataIO, name, uuid);
+	}
+
+	public OnlineVoteEvent(final VoterPlayer voterPlayer) {
+		super(voterPlayer);
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.bebehp.mc.simpleforgevotelistener.Reference;
 import com.bebehp.mc.simpleforgevotelistener.SimpleForgeVoteListener;
+import com.bebehp.mc.simpleforgevotelistener.player.UUIDUtil;
 import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
 import com.bebehp.mc.simpleforgevotelistener.player.VoterPlayer;
 import com.bebehp.mc.simpleforgevotelistener.vote.DummyVoteEvent;
@@ -29,8 +30,6 @@ import com.vexsoftware.votifier.model.VotifierEvent;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.server.FMLServerHandler;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 
 public class VoteHandler {
 	public static final VoteHandler INSTANCE = new VoteHandler();
@@ -45,7 +44,7 @@ public class VoteHandler {
 	public void onVoteEvent(final VotifierEvent event) {
 		final Vote vote = event.getVote();
 		final String name = vote.getUsername();
-		UUID uuid = getUUID(name);
+		UUID uuid = UUIDUtil.getUUIDfromUsername(name);
 		IVoteEvent voteEvent;
 		if (uuid != null) {
 			voteEvent = new OnlineVoteEvent(new VoteDataIO(dataDir, uuid + ".json"), name, uuid);
@@ -59,13 +58,6 @@ public class VoteHandler {
 			}
 		}
 		voteEvent.onVote();
-	}
-
-	public UUID getUUID(final String name) {
-		final EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(name);
-		if (player == null)
-			return null;
-		return player.getGameProfile().getId();
 	}
 
 	public static Map<String, String> readUserNameCache() {

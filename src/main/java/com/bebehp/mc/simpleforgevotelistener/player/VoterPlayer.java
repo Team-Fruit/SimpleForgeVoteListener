@@ -18,23 +18,23 @@ public class VoterPlayer implements ICommandSender {
 	private final UUID uuid;
 	private final EntityPlayerMP player;
 	private final GameProfile profile;
-	private final Data data;
+	private final VoteDataIO dataIO;
 
-	public VoterPlayer(final String name, final UUID uuid, final EntityPlayerMP entityPlayerMP, final GameProfile profile, final Data data) {
+	public VoterPlayer(final String name, final UUID uuid, final EntityPlayerMP entityPlayerMP, final GameProfile profile, final VoteDataIO voteDataIO) {
 		this.name = name;
 		this.uuid = uuid;
 		this.player = entityPlayerMP;
 		this.profile = profile;
-		this.data = data;
+		this.dataIO = voteDataIO;
 	}
 
-	public VoterPlayer(final String name, final UUID uuid, final EntityPlayerMP player, final Data data) {
-		this(name, uuid, player, MinecraftServer.getServer().getConfigurationManager().func_152612_a(name).getGameProfile(), data);
+	public VoterPlayer(final String name, final UUID uuid, final EntityPlayerMP player, final VoteDataIO voteDataIO) {
+		this(name, uuid, player, MinecraftServer.getServer().getConfigurationManager().func_152612_a(name).getGameProfile(), voteDataIO);
 	}
 
 	public VoterPlayer(final String name, final UUID uuid) {
 		this(name, uuid, MinecraftServer.getServer().getConfigurationManager().func_152612_a(name),
-				new VoteDataIO(SimpleForgeVoteListener.DATA_DIR, uuid.toString() + ".json").load());
+				new VoteDataIO(SimpleForgeVoteListener.DATA_DIR, uuid.toString() + ".json"));
 	}
 
 	public String getName() {
@@ -53,8 +53,8 @@ public class VoterPlayer implements ICommandSender {
 		return this.profile;
 	}
 
-	public Data getData() {
-		return this.data;
+	public VoteDataIO getVoteDataIO() {
+		return this.dataIO;
 	}
 
 	public boolean isOnline() {

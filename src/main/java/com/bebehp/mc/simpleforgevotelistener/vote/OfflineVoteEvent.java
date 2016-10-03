@@ -4,11 +4,16 @@ import java.util.UUID;
 
 import com.bebehp.mc.simpleforgevotelistener.handler.ConfigurationHandler;
 import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
+import com.bebehp.mc.simpleforgevotelistener.player.VoterPlayer;
 
 public class OfflineVoteEvent extends AbstractVoteEvent {
 
 	public OfflineVoteEvent(final VoteDataIO voteDataIO, final String name, final UUID uuid) {
 		super(voteDataIO, name, uuid);
+	}
+
+	public OfflineVoteEvent(final VoterPlayer voterPlayer) {
+		super(voterPlayer);
 	}
 
 	@Override
