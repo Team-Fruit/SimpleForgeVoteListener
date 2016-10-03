@@ -2,27 +2,20 @@ package com.bebehp.mc.simpleforgevotelistener.vote;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.bebehp.mc.simpleforgevotelistener.ChatUtil;
 import com.bebehp.mc.simpleforgevotelistener.handler.ConfigurationHandler;
-import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
 import com.bebehp.mc.simpleforgevotelistener.player.VoterPlayer;
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.C_PrivateChat;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.Commands;
 import com.bebehp.mc.simpleforgevotelistener.setting.SettingFormat;
 
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
 public class OnlineVoteEvent extends AbstractVoteEvent {
-
-	public OnlineVoteEvent(final VoteDataIO voteDataIO, final String name, final UUID uuid) {
-		super(voteDataIO, name, uuid);
-	}
 
 	public OnlineVoteEvent(final VoterPlayer voterPlayer) {
 		super(voterPlayer);
@@ -58,12 +51,11 @@ public class OnlineVoteEvent extends AbstractVoteEvent {
 				final C_PrivateChat chat = it.next();
 				final String formatArgs = chat.args.replaceAll("count", this.data.getVote_offline());
 				final SettingFormat format = new SettingFormat(this.name, chat.str, formatArgs);
-				final EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.name);
 				final boolean isJson = Boolean.valueOf(chat.json);
 				if(isJson)
-					ChatUtil.sendPlayerChat(player, ChatUtil.byJson(format.parseArgs()));
+					ChatUtil.sendPlayerChat(this.player, ChatUtil.byJson(format.parseArgs()));
 				else
-					ChatUtil.sendPlayerChat(player, ChatUtil.byText(format.parseArgs()));
+					ChatUtil.sendPlayerChat(this.player, ChatUtil.byText(format.parseArgs()));
 			}
 		}
 	}

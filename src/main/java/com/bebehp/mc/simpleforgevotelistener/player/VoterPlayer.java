@@ -3,7 +3,6 @@ package com.bebehp.mc.simpleforgevotelistener.player;
 import java.util.UUID;
 
 import com.bebehp.mc.simpleforgevotelistener.SimpleForgeVoteListener;
-import com.mojang.authlib.GameProfile;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,19 +16,13 @@ public class VoterPlayer implements ICommandSender {
 	private final String name;
 	private final UUID uuid;
 	private final EntityPlayerMP player;
-	private final GameProfile profile;
 	private final VoteDataIO dataIO;
 
-	public VoterPlayer(final String name, final UUID uuid, final EntityPlayerMP entityPlayerMP, final GameProfile profile, final VoteDataIO voteDataIO) {
+	public VoterPlayer(final String name, final UUID uuid, final EntityPlayerMP entityPlayerMP, final VoteDataIO voteDataIO) {
 		this.name = name;
 		this.uuid = uuid;
 		this.player = entityPlayerMP;
-		this.profile = profile;
 		this.dataIO = voteDataIO;
-	}
-
-	public VoterPlayer(final String name, final UUID uuid, final EntityPlayerMP player, final VoteDataIO voteDataIO) {
-		this(name, uuid, player, MinecraftServer.getServer().getConfigurationManager().func_152612_a(name).getGameProfile(), voteDataIO);
 	}
 
 	public VoterPlayer(final String name, final UUID uuid) {
@@ -37,26 +30,40 @@ public class VoterPlayer implements ICommandSender {
 				new VoteDataIO(SimpleForgeVoteListener.DATA_DIR, uuid.toString() + ".json"));
 	}
 
+	/**
+	 * 通常はgetCommandSenderName()と同様です。
+	 * @return Username
+	 */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * @return UUID
+	 */
 	public UUID getUUID() {
 		return this.uuid;
 	}
 
+	/**
+	 * 初期化時の値のため、Entityが存在していない場合でもnull以外が返される場合があります。
+	 * @return EntityPlayerMP
+	 */
 	public EntityPlayerMP getEntityPlayerMP() {
 		return this.player;
 	}
 
-	public GameProfile getGameProfile() {
-		return this.profile;
-	}
-
+	/**
+	 * @return VoteDataIO
+	 */
 	public VoteDataIO getVoteDataIO() {
 		return this.dataIO;
 	}
 
+	/**
+	 * 現在Playerが存在するかをチェックします。
+	 * @return Playerが存在する場合はtrue
+	 */
 	public boolean isOnline() {
 		for (final String userName : MinecraftServer.getServer().getAllUsernames()) {
 			if (this.name == userName)

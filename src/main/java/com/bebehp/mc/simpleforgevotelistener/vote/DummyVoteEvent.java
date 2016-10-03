@@ -1,17 +1,15 @@
 package com.bebehp.mc.simpleforgevotelistener.vote;
 
-import java.util.UUID;
-
-import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
+import com.bebehp.mc.simpleforgevotelistener.player.VoterPlayer;
 
 public class DummyVoteEvent extends AbstractVoteEvent {
 
-	private DummyVoteEvent(final VoteDataIO voteDataIO, final String name, final UUID uuid) {
-		super(voteDataIO, name, uuid);
+	public DummyVoteEvent(final VoterPlayer voterPlayer) {
+		super(voterPlayer);
 	}
 
 	public DummyVoteEvent(final String name) {
-		this(null, name, null);
+		this(new VoterPlayer(name, null));
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
@@ -77,7 +78,10 @@ public class UUIDUtil {
 		JsonReader jr;
 		try {
 			final URL url = new URL(API_PATH + name);
-			final BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+			final URLConnection connection = url.openConnection();
+			connection.setConnectTimeout(5000);
+			connection.setReadTimeout(5000);
+			final BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			jr = new JsonReader(br);
 			final MojangAPI mojangAPI = new Gson().fromJson(jr, MojangAPI.class);
 			final UUID uuid = fromString(mojangAPI.id);
