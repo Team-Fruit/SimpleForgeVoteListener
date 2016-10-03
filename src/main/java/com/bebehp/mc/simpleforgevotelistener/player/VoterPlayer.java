@@ -16,9 +16,9 @@ public class VoterPlayer implements ICommandSender {
 	private final String name;
 	private final UUID uuid;
 	private final EntityPlayerMP player;
-	private final VoteDataIO dataIO;
+	private final VotePlayerData dataIO;
 
-	public VoterPlayer(final String name, final UUID uuid, final EntityPlayerMP entityPlayerMP, final VoteDataIO voteDataIO) {
+	public VoterPlayer(final String name, final UUID uuid, final EntityPlayerMP entityPlayerMP, final VotePlayerData voteDataIO) {
 		this.name = name;
 		this.uuid = uuid;
 		this.player = entityPlayerMP;
@@ -27,7 +27,7 @@ public class VoterPlayer implements ICommandSender {
 
 	public VoterPlayer(final String name, final UUID uuid) {
 		this(name, uuid, MinecraftServer.getServer().getConfigurationManager().func_152612_a(name),
-				new VoteDataIO(SimpleForgeVoteListener.DATA_DIR, uuid.toString() + ".json"));
+				new VotePlayerData(SimpleForgeVoteListener.DATA_DIR, uuid.toString() + ".json"));
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class VoterPlayer implements ICommandSender {
 	/**
 	 * @return VoteDataIO
 	 */
-	public VoteDataIO getVoteDataIO() {
+	public VotePlayerData getVoteDataIO() {
 		return this.dataIO;
 	}
 

@@ -15,45 +15,53 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-public class VoteDataIO {
+public class VotePlayerData {
 
 	private final File loadFile;
 
-	public VoteDataIO(final File file) {
+	public VotePlayerData(final File file) {
 		this.loadFile = file;
 	}
 
-	public VoteDataIO(final File dataDir, final String fileName) {
+	public VotePlayerData(final File dataDir, final String fileName) {
 		this(new File(dataDir, fileName));
 	}
 
-	public Data load() {
+	public PlayerData load() {
 		JsonReader jr = null;
 		try {
 			final InputStreamReader isr = new InputStreamReader(new FileInputStream(this.loadFile));
 			jr= new JsonReader(isr);
-			final Data data = new Gson().fromJson(jr, Data.class);
+			final PlayerData data = new Gson().fromJson(jr, PlayerData.class);
 			return data;
 		} catch (final FileNotFoundException e) {
-			return new Data(null, 0, 0);
+			return new PlayerData(null, 0, 0);
 		} finally {
 			IOUtils.closeQuietly(jr);
 		}
 	}
 
-	public void save(final Data data) {
+	public void save(final PlayerData data) {
 		if (this.loadFile.exists())
 			createFile();
 
 		JsonWriter jw = null;
 		try {
 			jw = new JsonWriter(new BufferedWriter(new FileWriter(this.loadFile)));
-			new Gson().toJson(data, Data.class, jw);
+			new Gson().toJson(data, PlayerData.class, jw);
 		} catch (final IOException e) {
 			Reference.logger.info(e);
 		} finally {
 			IOUtils.closeQuietly(jw);
 		}
+	}
+
+	public boolean exists() {
+		return this.loadFile.exists();
+	}
+
+	public void build(final String uuid) {
+		save(new PlayerData(uuid, 0, 0));
 	}
 
 	private void createFile() {

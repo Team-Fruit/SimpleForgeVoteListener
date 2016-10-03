@@ -6,8 +6,8 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import com.bebehp.mc.simpleforgevotelistener.ChatUtil;
-import com.bebehp.mc.simpleforgevotelistener.player.Data;
-import com.bebehp.mc.simpleforgevotelistener.player.VoteDataIO;
+import com.bebehp.mc.simpleforgevotelistener.player.PlayerData;
+import com.bebehp.mc.simpleforgevotelistener.player.VotePlayerData;
 import com.bebehp.mc.simpleforgevotelistener.player.VoterPlayer;
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 import com.bebehp.mc.simpleforgevotelistener.setting.Setting.Commands;
@@ -23,10 +23,10 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 	public static final Pattern pattern = Pattern.compile("%s");
 
 	protected VoterPlayer player;
-	protected VoteDataIO voteDataIO;
+	protected VotePlayerData voteDataIO;
 	protected String name;
 	protected UUID uuid;
-	protected Data data;
+	protected PlayerData data;
 
 	public AbstractVoteEvent(final VoterPlayer voterPlayer) {
 		this.player = voterPlayer;

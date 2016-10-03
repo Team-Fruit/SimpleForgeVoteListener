@@ -1,17 +1,17 @@
 package com.bebehp.mc.simpleforgevotelistener.player;
 
-public class Data {
+public class PlayerData {
 	private String uuid;
 	private String vote;
 	private String vote_offline;
 
-	public Data(final String uuid, final String vote, final String vote_offline) {
+	public PlayerData(final String uuid, final String vote, final String vote_offline) {
 		this.uuid = uuid;
 		this.vote = vote;
 		this.vote_offline = vote_offline;
 	}
 
-	public Data(final String uuid,  final int vote, final int vote_offline) {
+	public PlayerData(final String uuid,  final int vote, final int vote_offline) {
 		this(uuid, Integer.toString(vote), Integer.toString(vote_offline));
 	}
 
