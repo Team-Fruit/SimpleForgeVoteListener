@@ -21,6 +21,6 @@ public class OfflineVoteEvent extends AbstractVoteEvent {
 			int offlineVoteCount = Integer.parseInt(this.data.getVote_offline());
 			this.data.setVote_offline(++offlineVoteCount);
 		}
-		this.voteDataIO.save(this.data);
+		this.playerData.save(this.data);
 	}
 }

@@ -40,7 +40,7 @@ public class OnlineVoteEvent extends AbstractVoteEvent {
 			}
 			this.data.setVote_offline(0);
 		}
-		this.voteDataIO.save(this.data);
+		this.playerData.save(this.data);
 	}
 
 	private void sendCumulativeCountChat() {

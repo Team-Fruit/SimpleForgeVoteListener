@@ -4,7 +4,7 @@ import com.bebehp.mc.simpleforgevotelistener.player.VoterPlayer;
 
 public class DummyVoteEvent extends AbstractVoteEvent {
 
-	public DummyVoteEvent(final VoterPlayer voterPlayer) {
+	private DummyVoteEvent(final VoterPlayer voterPlayer) {
 		super(voterPlayer);
 	}
 

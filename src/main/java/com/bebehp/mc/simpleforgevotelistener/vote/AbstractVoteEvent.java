@@ -23,7 +23,7 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 	public static final Pattern pattern = Pattern.compile("%s");
 
 	protected VoterPlayer player;
-	protected VotePlayerData voteDataIO;
+	protected VotePlayerData playerData;
 	protected String name;
 	protected UUID uuid;
 	protected PlayerData data;
@@ -32,8 +32,8 @@ public abstract class AbstractVoteEvent implements IVoteEvent {
 		this.player = voterPlayer;
 		this.name = voterPlayer.getName();
 		this.uuid = voterPlayer.getUUID();
-		this.voteDataIO = voterPlayer.getVoteDataIO();
-		this.data = this.voteDataIO.load();
+		this.playerData = voterPlayer.getVoteDataIO();
+		this.data = this.playerData.load();
 	}
 
 	public void executeCommand() {
