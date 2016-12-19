@@ -8,6 +8,7 @@ import com.bebehp.mc.simpleforgevotelistener.handler.ConfigurationHandler;
 import com.bebehp.mc.simpleforgevotelistener.handler.VoteHandler;
 import com.bebehp.mc.simpleforgevotelistener.setting.JsonSetting;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -40,6 +41,7 @@ public class SimpleForgeVoteListener {
 	public void init(final FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(VoteHandler.INSTANCE);
+		FMLCommonHandler.instance().bus().register(VoteHandler.INSTANCE);
 	}
 
 	@EventHandler
